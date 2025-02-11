@@ -1,0 +1,44 @@
+﻿
+#grid {
+    display: grid;
+    
+    width: 800px;
+    max-height: 100vh;
+    
+    /*grid-gap: 1rem;*/
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+}
+
+.tile {
+    min-width: 100px;
+    background: #0F0F0F;
+    padding: 1rem;
+    margin: 0.5rem;
+}
+
+.tile h1 {
+    color: white;
+    font-size: 6rem;
+}
+
+.tile h3 {
+    color: gray;
+}
+
+.tile text {
+    color: white;
+}
+
+.profile-picture img {
+    width: 100%;
+}
+
+.single {
+    aspect-ratio: 1;
+}
+
+.wide {
+    /*aspect-ratio: 1.9/0.9;*/
+    grid-column: span 2;
+}
