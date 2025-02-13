@@ -14,14 +14,6 @@
     overflow: hidden;
 }
 
-.tile::before {
-    content: "+";
-    color: white;
-    position: absolute;
-    width: 10px;
-    height: 10px;
-}
-
 .tile > .content {
     width: calc(100% - 0.5rem);
     height: calc(100% - 0.5rem);
@@ -43,24 +35,4 @@
 
 .tile h4 {
     color: #2c3034;
-}
-.two-wide {
-    aspect-ratio: 2;
-    grid-column: span 2;
-}
-
-.three-wide {
-    aspect-ratio: 3;
-    grid-column: span 3;
-}
-
-.two-high {
-    aspect-ratio: 1/2;
-    grid-row: span 2;
-}
-
-.one-wide.one-high,
-.two-wide.two-high,
-.three-wide.three-high {
-    aspect-ratio: 1;
 }

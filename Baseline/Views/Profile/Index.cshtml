@@ -8,7 +8,11 @@
 <div id="grid">
     @foreach (var tileViewModel in Model.TileViewModels)
     {
-        <div class="tile @tileViewModel.width() @tileViewModel.height()">
+        <div class="tile" style="
+            grid-row: span @tileViewModel.Height;
+            grid-column: span @tileViewModel.Width;
+            aspect-ratio: @tileViewModel.Width/@tileViewModel.Height;
+        ">
             @switch (tileViewModel)
             {
                 case PictureTileViewModel tile:
