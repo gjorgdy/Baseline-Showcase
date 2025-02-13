@@ -1,0 +1,68 @@
+﻿/*
+
+    Experiences Tile
+
+*/
+
+.experiences .title {
+    font-weight: bold;
+}
+
+.experiences .time-period {
+    font-weight: lighter;
+    font-style: italic;
+}
+
+.experiences .location {
+    display: block;
+    font-weight: normal;
+}
+
+/*
+
+    Profile Picture tile
+
+*/
+
+.profile-picture img {
+    width: 100%;
+}
+
+/*
+
+    Display Name tile
+
+*/
+
+.display-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tile > .display-name h1 {
+    color: white;
+    /*font-size: 6rem;*/
+    /*margin-bottom: 2rem;*/
+    padding: 0;
+}
+
+/*
+
+    Spotify tile
+
+*/
+
+.spotify img {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.spotify .name {
+    font-weight: bold;
+    display: block;
+}
+
+.spotify .size {
+    display: block;
+}

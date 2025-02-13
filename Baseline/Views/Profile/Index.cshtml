@@ -1,0 +1,33 @@
+﻿@using Baseline.Models.Tiles
+@model GridViewModel
+
+@{
+    ViewData["Title"] = "Jordy Reins";
+}
+
+<div id="grid">
+    @foreach (var tileViewModel in Model.TileViewModels)
+    {
+        <div class="tile @tileViewModel.width() @tileViewModel.height()">
+            @switch (tileViewModel)
+            {
+                case PictureTileViewModel tile:
+                    @await Html.PartialAsync("_PictureTilePartial", tile)
+                    break;
+                case NameTileViewModel tile:
+                    @await Html.PartialAsync("_NameTilePartial", tile)
+                    break;
+                case ExperiencesTileViewModel tile:
+                    @await Html.PartialAsync("_ExperiencesTilePartial", tile)
+                    break;
+                case SkillsTileViewModel tile:
+                    @await Html.PartialAsync("_SkillsTilePartial", tile)
+                    break;
+                case SpotifyTileViewModel tile:
+                    @await Html.PartialAsync("_SpotifyTilePartial", tile)
+                    break;
+            }
+        </div>
+    }
+</div>
+

@@ -1,0 +1,14 @@
+﻿@model Baseline.Models.Tiles.SkillsTileViewModel
+
+<div class="content languages">
+    <h4>Talen</h4>
+    @foreach (var skill in Model.Skills)
+    {
+        <text>
+            <span class="skill">@skill.Name</span>
+            <div class="progress-bar" role="progressbar" aria-valuenow="@skill.Percentage" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress" style="width: @skill.Percentage%;">@skill.Percentage%</div>
+            </div>
+        </text>
+    }
+</div>

@@ -1,0 +1,14 @@
+﻿@model Baseline.Models.Tiles.SpotifyTileViewModel
+
+<div class="content spotify">
+    <h4>Playlist</h4>
+    <a href="@Model.PlaylistUrl">
+        <img src="@Model.ImageUrl" alt="@Model.Title">
+    </a>
+    <text>
+        <span class="name">@Model.Title</span>
+        <span class="size">@Model.Size songs</span>
+    </text>
+</div>
+
+

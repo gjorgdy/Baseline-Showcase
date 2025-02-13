@@ -1,44 +1,66 @@
 ﻿
 #grid {
     display: grid;
-    
-    width: 800px;
-    max-height: 100vh;
-    
-    /*grid-gap: 1rem;*/
+
+    max-width: 400px;
+    max-height: 100%;
+
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(6, 1fr);
 }
 
 .tile {
     min-width: 100px;
-    background: #0F0F0F;
-    padding: 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.tile::before {
+    content: "+";
+    color: white;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+}
+
+.tile > .content {
+    width: calc(100% - 0.5rem);
+    height: calc(100% - 0.5rem);
     margin: 0.5rem;
-}
-
-.tile h1 {
-    color: white;
-    font-size: 6rem;
-}
-
-.tile h3 {
-    color: gray;
-}
-
-.tile text {
+    padding: 0.5rem;
     color: white;
 }
 
-.profile-picture img {
-    width: 100%;
+.experiences .experience {
+    display: block;
+    margin-top: 1rem;
 }
 
-.single {
-    aspect-ratio: 1;
+.tile > .content.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.wide {
-    /*aspect-ratio: 1.9/0.9;*/
+.tile h4 {
+    color: #2c3034;
+}
+.two-wide {
+    aspect-ratio: 2;
     grid-column: span 2;
+}
+
+.three-wide {
+    aspect-ratio: 3;
+    grid-column: span 3;
+}
+
+.two-high {
+    aspect-ratio: 1/2;
+    grid-row: span 2;
+}
+
+.one-wide.one-high,
+.two-wide.two-high,
+.three-wide.three-high {
+    aspect-ratio: 1;
 }
