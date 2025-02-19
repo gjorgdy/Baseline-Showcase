@@ -26,6 +26,17 @@ public class ProfileController(ILogger<HomeController> logger) : Controller
                     1,
                     "Jordy"
                 ),
+                // Description
+                new ParagraphTileViewModel(
+                    "Biography",
+                    3,
+                    1,
+                    """
+                        I am a student currently studying software development. 
+                        I like to develop game mods at home, especially for Minecraft.
+                        Besides programming, my hobbies are gaming, video editing, and graphic design.
+                    """
+                ),
                 // Languages
                 new SkillsTileViewModel(
                     "Languages",

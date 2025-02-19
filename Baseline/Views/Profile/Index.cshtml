@@ -23,6 +23,9 @@
                 case NameTileViewModel tile:
                     @await Html.PartialAsync("_NameTilePartial", tile)
                     break;
+                case ParagraphTileViewModel tile:
+                    @await Html.PartialAsync("_ParagraphTilePartial", tile)
+                    break;
                 case ExperiencesTileViewModel tile:
                     @await Html.PartialAsync("_ExperiencesTilePartial", tile)
                     break;
