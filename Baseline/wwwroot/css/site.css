@@ -1,5 +1,13 @@
-html {
+body {
+  margin: 1rem;
+}
+
+html, button {
   font-size: 14px;
+  font-family: "Silkscreen", serif;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
 }
 
 @media (min-width: 768px) {
@@ -12,23 +20,97 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+a {
+  color: inherit;
+}
+
+h1 {
+  margin-top: 0;
+}
+
 html {
   position: relative;
-  min-height: 100%;
-  max-height: 100dvh;
+  min-height: 100dvh;
 }
 
 body {
-  margin-bottom: 60px;
   background-color: black;
+  min-height: calc(100dvh - 2rem);
 }
 
 .container {
+  margin-left: 4rem;
+  padding-left: 1rem;
+
+  --cell-size: min(12em, 30dvw);
+
+  background-image: radial-gradient(circle, #FFFFFF15 10%, transparent 10%);
+
+  --dot-distance: calc(var(--cell-size) / 6);
+  background-size: var(--dot-distance) var(--dot-distance); /* Adjust to match your grid size */
+  --dot-offset: calc(var(--dot-distance) * 4);
+  background-position: var(--dot-offset) -1rem;
+
+  min-height: calc(100dvh - 2rem);
+
+  position: relative;
+}
+
+.footer {
+  position: absolute;
+  bottom: 1.15rem;
+  right: 1rem;
+  font-size: 0.75rem;
+
+  background: black;
+  color: darkgray;
+}
+
+.navbar {
+  float: left;
+  width: 3rem;
+  height: calc(100dvh - 2rem);
+  padding-right: 1rem;
+
   display: flex;
-  align-content: center;
+  position: relative;
+  flex-direction: column;
   justify-content: center;
 
+  border-right: 1px white dashed;
+}
+
+.navbar a {
+  box-sizing: border-box;
+  writing-mode: vertical-rl;
+  text-decoration: none;
+}
+
+.navbar .navbar-nav a {
+  margin: 0 0 3rem;
+}
+
+.navbar .navbar-settings a {
+  margin: 3rem 0 0;
+}
+
+.navbar ul {
   padding: 0;
+  list-style: none;
+}
+
+.navbar-nav,
+.navbar-settings {
+  display: block;
+  text-align: center;
+}
+
+.navbar-nav {
+  flex-grow: 1;
+}
+
+.navbar-settings {
+  flex-shrink: 0;
 }
 
 #cookieConsent {
@@ -45,6 +127,19 @@ body {
   justify-content: center;
 }
 
+#cookieConsent::after {
+  background-color: black;
+}
+
 #cookieConsent .buttons {
   display: block;
+  margin-top: 1rem;
+}
+
+#cookieConsent button {
+  background: black;
+  border: 1px dotted white;
+  padding: 0.5rem;
+  color: white;
+  cursor: pointer;
 }

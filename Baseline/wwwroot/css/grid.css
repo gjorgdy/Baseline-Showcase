@@ -1,28 +1,17 @@
 ﻿
 #grid {
     display: grid;
-
-    max-width: 420px;
-    max-height: 100%;
-
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-
-    background-image: radial-gradient(circle, #FFFFFF15 10%, transparent 10%);
-    background-size: calc(100% / 12) calc(100% / 24); /* Adjust to match your grid size */
-    background-position: calc(100% / 24) calc(100% / 48);
-
-    padding: 20px;
+    grid-template-columns: repeat(3, var(--cell-size));
+    grid-template-rows: repeat(calc(100dvh / var(--cell-size)), var(--cell-size));
     box-sizing: content-box;
 }
 
 .tile {
-    min-width: 100px;
-    box-sizing: border-box;
     overflow: auto;
 }
 
 .tile > .content {
+    box-sizing: border-box;
     width: calc(100% - 0.5rem);
     height: calc(100% - 0.5rem);
     margin: 0.25rem;

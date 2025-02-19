@@ -26,52 +26,52 @@ public class ProfileController(ILogger<HomeController> logger) : Controller
                     1,
                     "Jordy"
                 ),
+                // Languages
+                new SkillsTileViewModel(
+                    "Languages",
+                    1,
+                    1
+                ).add(
+                    "Dutch",
+                    100
+                ).add(
+                    "English",
+                    100
+                ).add(
+                    "German",
+                    25
+                ),
                 // Education
                 new ExperiencesTileViewModel(
-                    "Opleidingen",
+                    "Studies",
                     2,
-                    2
+                    1
                 ).add(
                     "HBO-ICT",
-                    "2023 - Nu",
-                    "Hogeschool Windesheim Zwolle"
+                    "2023 - Now",
+                    "University Windesheim Zwolle"
                 ).add(
                     "Atheneum",
                     "2015 - 2022",
                     "Vechtdal College Hardenberg"
                 ),
-                // Languages
-                new SkillsTileViewModel(
-                    "Talen",
-                    1,
-                    2
+                // Jobs
+                new ExperiencesTileViewModel(
+                    "Experiences",
+                    2,
+                    1
                 ).add(
-                    "Nederlands",
-                    100
-                ).add(
-                    "Engels",
-                    100
-                ).add(
-                    "Duits",
-                    25
+                    "Cassiere",
+                    "2019 - 2022",
+                    "Lidl Hardenberg"
                 ),
                 // Spotify
                 new SpotifyTileViewModel(
                     "My Playlist",
                     1,
-                    2,
+                    1,
                     "https://open.spotify.com/playlist/27Byq479ZJuUzGDagJfMD9?si=3f8838236bf94da9"
                 ),
-                // Jobs
-                new ExperiencesTileViewModel(
-                    "Ervaring",
-                    2,
-                    1
-                ).add(
-                    "Kassamedewerker",
-                    "2019 - 2022",
-                    "Lidl Hardenberg"
-                )
             ]
         ));
     }

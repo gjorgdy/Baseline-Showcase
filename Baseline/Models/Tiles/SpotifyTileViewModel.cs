@@ -12,7 +12,7 @@ public class SpotifyTileViewModel(
 
     public string ImageUrl => "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84cf8957391f0fedbc57fb1963";
 
-    public string Title => "a good name";
+    public string Name => "a good name";
 
     public int Size = 875;
 
