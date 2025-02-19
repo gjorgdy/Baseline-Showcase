@@ -18,7 +18,7 @@ public class ProfileController(ILogger<HomeController> logger) : Controller
                     "Profile Picture",
                     1,
                     1,
-                    "/resources/pfp.png"
+                    "/resources/pfp.jpg"
                 ),
                 new NameTileViewModel(
                     "Display Name",
@@ -64,6 +64,27 @@ public class ProfileController(ILogger<HomeController> logger) : Controller
                     "Cassiere",
                     "2019 - 2022",
                     "Lidl Hardenberg"
+                ),
+                // Programming Languages
+                new SkillsTileViewModel(
+                    "Programming Languages",
+                    1,
+                    2
+                ).add(
+                    "Java",
+                    75
+                ).add(
+                    "C#",
+                    70
+                ).add(
+                    "Python",
+                    50
+                ).add(
+                    "Javascript",
+                    25
+                ).add(
+                    "GoLang",
+                    10
                 ),
                 // Spotify
                 new SpotifyTileViewModel(
