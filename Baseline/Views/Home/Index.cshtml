@@ -5,14 +5,17 @@
 <div class="center">
     <div>
         <h1>Welcome to Baseline</h1>
-        <p>This is a platform where one can make a profile
-            <br> to present themselves by connecting different accounts.</p>
-        <button type="button" data-dismiss="alert">
-            <span aria-hidden="true">Search Profiles</span>
-        </button>
+        <p>Sync your game accounts, build your profile,
+            <br>and showcase your stats — all in one place!</p>
 
-        <a asp-area="" asp-controller="profile" asp-action="index">
-            <button type="button" data-dismiss="alert" href="/profile">
+        <a asp-area="" asp-controller="users" asp-action="search">
+            <button type="button" data-dismiss="alert">
+                <span aria-hidden="true">Search Profiles</span>
+            </button>
+        </a>
+
+        <a asp-area="" asp-controller="users" asp-action="profile" asp-route-id="0">
+            <button type="button" data-dismiss="alert">
                 <span aria-hidden="true">Developer's Profile</span>
             </button>
         </a>

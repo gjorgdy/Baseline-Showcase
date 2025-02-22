@@ -6,7 +6,7 @@ namespace Baseline;
 public static class HardcodedData
 {
 
-    public static ProfileViewModel ProfileJordy = new ProfileViewModel(0, [
+    public static readonly ProfileViewModel ProfileJordy = new(0, [
         new GridViewModel(
             [
                 // Profile Picture

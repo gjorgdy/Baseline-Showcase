@@ -1,17 +1,28 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Baseline.Models;
-using Baseline.Models.Tiles;
 
 namespace Baseline.Controllers;
 
-public class ProfileController(ILogger<HomeController> logger) : Controller
+public class UsersController(ILogger<HomeController> logger) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
 
     public IActionResult Index()
     {
-        return View(HardcodedData.ProfileJordy);
+        return RedirectToAction("Search");
+    }
+
+    public IActionResult Search()
+    {
+        return View();
+    }
+
+    public IActionResult Profile(int? id)
+    {
+        return id == 0
+            ? View(HardcodedData.ProfileJordy)
+            : RedirectToAction("search");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
