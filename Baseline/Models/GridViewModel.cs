@@ -2,7 +2,7 @@
 
 namespace Baseline.Models;
 
-public class GridViewModel(List<TileViewModel> tileViewModels)
+public class GridViewModel(List<TileViewModel> tiles)
 {
-    public List<TileViewModel> TileViewModels { get; } = tileViewModels;
+    public List<TileViewModel> Tiles { get; } = tiles;
 }
