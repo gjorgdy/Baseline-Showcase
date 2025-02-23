@@ -36,7 +36,12 @@ public class UsersController(ILogger<HomeController> logger) : Controller
     [HttpPost]
     public IActionResult Mail([FromForm] MailFormModel model)
     {
-        Console.Out.WriteLine(model.FirstName + " : " + model.LastName);
+        Baseline.MailService.SendMail(
+            model.Email,
+            "jordyreins@gmail.com",
+            model.FirstName,
+            model.Message
+        );
         return View(model);
     }
 
