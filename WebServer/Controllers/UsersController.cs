@@ -41,16 +41,15 @@ public class UsersController(ILogger<HomeController> logger) : Controller
     [Route("users/{id:int}/mail")]
     public IActionResult Mail([FromForm] MailFormModel model, int id)
     {
-        if (model.Validate())
-        {
-            Baseline.MailService.SendMail(
-                model.Email,
-                "jordyreins@gmail.com",
-                model.FirstName,
-                model.Message
-            );
-        }
-        return View(model);
+        if (!model.Validate()) return View(model);
+
+        Baseline.MailService.SendMail(
+            model.Email,
+            "jordyreins@gmail.com",
+            model.FirstName,
+            model.Message
+        );
+        return View(new MailFormModel(id, true));
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

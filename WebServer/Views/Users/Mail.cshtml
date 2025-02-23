@@ -12,22 +12,49 @@
             <input type="hidden" asp-for="ReceiverId" value="@Model.ReceiverId">
 
             <label asp-for="FirstName">First name</label>
-            <div>
-                <input asp-for="FirstName">
-                <span asp-for="FirstName" class="error"></span>
-            </div>
+            <input required="required" minlength="2" maxlength="16" asp-for="FirstName">
             <label asp-for="LastName">Last name</label>
-            <input asp-for="LastName">
+            <input required="required" minlength="2" maxlength="16" asp-for="LastName">
 
             <label asp-for="Email">Email address</label>
-            <input asp-for="Email">
+            <input required="required" minlength="6" type="email" asp-for="Email">
             <label asp-for="PhoneNumber">Phone number</label>
-            <input asp-for="PhoneNumber">
+            <input required="required" minlength="2" maxlength="12" asp-for="PhoneNumber">
 
             <label asp-for="Message">Message</label>
-            <textarea asp-for="Message"></textarea>
+            <textarea required="required" minlength="2" maxlength="1024" asp-for="Message"></textarea>
 
-            <input type="submit" value="Send">
+            <input type="submit" value="Send" onclick="showLoading()">
         </form>
     </div>
+
+    <img
+        id="loading"
+        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.superiorlawncareusa.com%2Fwp-content%2Fuploads%2F2020%2F05%2Floading-gif-png-5.gif&f=1&nofb=1&ipt=18fd8ee25459adeab27daf37174cd06d249ba85b4084d04cd2dd87adb12a5552&ipo=images"
+        alt="Spinning gif"
+    >
 </div>
+
+@if (Model.Sent)
+{
+    <script defer>
+        alert("Your email has been sent");
+        window.onload = function() {
+            const form = document.getElementById("mail_input");
+            form.reset();
+        }
+    </script>
+}
+
+<script>
+    function showLoading() {
+        var form = document.getElementById("mail_input");
+        if (form.checkValidity()){
+            let mail = document.getElementById("mail");
+            let loading = document.getElementById("loading");
+
+            mail.style.display = "none";
+            loading.style.display = "block";
+        }
+    }
+</script>

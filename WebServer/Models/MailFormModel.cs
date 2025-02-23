@@ -3,12 +3,15 @@ using Core.Validation;
 
 namespace WebServer.Models;
 
-public class MailFormModel(int receiverId) : ValidatedModel
+public class MailFormModel(int receiverId = -1, bool sent = false) : ValidatedModel
 {
 
+    // ReSharper disable once UnusedMember.Global
     public MailFormModel() : this(-1) { }
 
     public int ReceiverId { get; init; } = receiverId;
+
+    public bool Sent { get; } = sent;
 
     [Length(2, 16)]
     public string FirstName { get; init; } = string.Empty;
