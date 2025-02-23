@@ -1,0 +1,13 @@
+﻿@model global::Core.Models.Tiles.ExperiencesTileViewModel
+
+<div class="content experiences">
+    <h4>@Model.Title</h4>
+    @foreach(var experience in Model.Experiences)
+    {
+        <span class="experience">
+            <span class="title">@experience.Name</span>
+            <span class="time-period">@experience.TimePeriod</span>
+            <span class="location">@experience.Location</span>
+        </span>
+    }
+</div>

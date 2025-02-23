@@ -1,0 +1,47 @@
+﻿@using Core.Models.Tiles
+@model ProfileViewModel
+
+@{
+    ViewData["Title"] = "Jordy Reins";
+}
+
+@foreach (var gridViewModel in Model.Grids)
+{
+    <div id="grid">
+        @foreach (var tileViewModel in gridViewModel.Tiles)
+        {
+            <div class="tile" style="
+        grid-row: span @tileViewModel.Height;
+        grid-column: span @tileViewModel.Width;
+        height: calc(@tileViewModel.Height * var(--cell-size));
+        width: calc(@tileViewModel.Width * var(--cell-size));
+        aspect-ratio: @tileViewModel.Width/@tileViewModel.Height;
+    ">
+                @switch (tileViewModel)
+                {
+                    case PictureTileViewModel tile:
+                        @await Html.PartialAsync("_PictureTilePartial", tile)
+                        break;
+                    case NameTileViewModel tile:
+                        @await Html.PartialAsync("_NameTilePartial", tile)
+                        break;
+                    case ParagraphTileViewModel tile:
+                        @await Html.PartialAsync("_ParagraphTilePartial", tile)
+                        break;
+                    case ExperiencesTileViewModel tile:
+                        @await Html.PartialAsync("_ExperiencesTilePartial", tile)
+                        break;
+                    case SkillsTileViewModel tile:
+                        @await Html.PartialAsync("_SkillsTilePartial", tile)
+                        break;
+                    case SpotifyTileViewModel tile:
+                        @await Html.PartialAsync("_SpotifyTilePartial", tile)
+                        break;
+                    case MailTileViewModel tile:
+                        @await Html.PartialAsync("_MailTilePartial", tile)
+                        break;
+                }
+            </div>
+        }
+    </div>
+}
