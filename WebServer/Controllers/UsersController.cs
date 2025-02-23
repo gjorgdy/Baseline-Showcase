@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Core;
 using Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using WebServer.Models;
 
 namespace WebServer.Controllers;
 
@@ -40,12 +41,15 @@ public class UsersController(ILogger<HomeController> logger) : Controller
     [Route("users/{id:int}/mail")]
     public IActionResult Mail([FromForm] MailFormModel model, int id)
     {
-        Baseline.MailService.SendMail(
-            model.Email,
-            "jordyreins@gmail.com",
-            model.FirstName,
-            model.Message
-        );
+        if (model.Validate())
+        {
+            Baseline.MailService.SendMail(
+                model.Email,
+                "jordyreins@gmail.com",
+                model.FirstName,
+                model.Message
+            );
+        }
         return View(model);
     }
 

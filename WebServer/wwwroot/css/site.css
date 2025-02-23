@@ -31,6 +31,22 @@ textarea {
   margin-right: 1rem;
   color: white;
   cursor: pointer;
+  position: relative;
+}
+
+input.input-validation-error,
+textarea.input-validation-error {
+  border: 1px dotted red;
+}
+
+input + .error {
+  display: none;
+}
+
+input.input-validation-error + .error {
+  display: block;
+  position: absolute;
+  content: "error message";
 }
 
 html {

@@ -1,5 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations
-@model MailFormModel
+@model WebServer.Models.MailFormModel
 
 @{
     ViewData["Title"] = "Mail";
@@ -12,7 +12,10 @@
             <input type="hidden" asp-for="ReceiverId" value="@Model.ReceiverId">
 
             <label asp-for="FirstName">First name</label>
-            <input asp-for="FirstName">
+            <div>
+                <input asp-for="FirstName">
+                <span asp-for="FirstName" class="error"></span>
+            </div>
             <label asp-for="LastName">Last name</label>
             <input asp-for="LastName">
 

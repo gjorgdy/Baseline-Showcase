@@ -1,7 +1,7 @@
 ﻿using Core.Models;
 using Core.Models.Tiles;
 
-namespace Core;
+namespace WebServer;
 
 public static class HardcodedData
 {
