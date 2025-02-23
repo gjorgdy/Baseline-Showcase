@@ -25,6 +25,21 @@ public class UsersController(ILogger<HomeController> logger) : Controller
             : RedirectToAction("search");
     }
 
+    [HttpGet]
+    public IActionResult Mail(int? id)
+    {
+        return id == 0
+            ? View(new MailFormModel(id.GetValueOrDefault()))
+            : RedirectToAction("search");
+    }
+
+    [HttpPost]
+    public IActionResult Mail([FromForm] MailFormModel model)
+    {
+        Console.Out.WriteLine(model.FirstName + " : " + model.LastName);
+        return View(model);
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

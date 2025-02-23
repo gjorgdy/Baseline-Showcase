@@ -5,8 +5,9 @@ namespace Baseline;
 
 public static class HardcodedData
 {
+    private const int UserIdJordy = 0;
 
-    public static readonly ProfileViewModel ProfileJordy = new(0, [
+    public static readonly ProfileViewModel ProfileJordy = new("Jordy Reins", UserIdJordy, [
         new GridViewModel(
             [
                 // Profile Picture
@@ -99,6 +100,13 @@ public static class HardcodedData
                     1,
                     1,
                     "https://open.spotify.com/playlist/27Byq479ZJuUzGDagJfMD9?si=3f8838236bf94da9"
+                ),
+                // Mail
+                new MailTileViewModel(
+                    "Contact me",
+                    1,
+                    1,
+                    UserIdJordy
                 ),
         ])
     ]);

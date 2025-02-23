@@ -1,0 +1,30 @@
+﻿@using System.ComponentModel.DataAnnotations
+@model MailFormModel
+
+@{
+    ViewData["Title"] = "Mail";
+}
+
+<div class="center">
+    <div id="mail">
+        <h1>Send a mail</h1>
+        <form id="mail_input" method="post">
+            <input type="hidden" asp-for="ReceiverId" value="@Model.ReceiverId">
+
+            <label asp-for="FirstName">First name</label>
+            <input asp-for="FirstName">
+            <label asp-for="LastName">Last name</label>
+            <input asp-for="LastName">
+
+            <label asp-for="Email">Email address</label>
+            <input asp-for="Email">
+            <label asp-for="PhoneNumber">Phone number</label>
+            <input asp-for="PhoneNumber">
+
+            <label asp-for="Message">Message</label>
+            <textarea asp-for="Message"></textarea>
+
+            <input type="submit" value="Send">
+        </form>
+    </div>
+</div>

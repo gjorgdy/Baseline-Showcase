@@ -1,9 +1,5 @@
-body {
-  margin: 1rem;
-}
-
 html, button {
-  font-size: 14px;
+  font-size: 11px;
   font-family: "Silkscreen", serif;
   font-weight: 400;
   font-style: normal;
@@ -12,12 +8,6 @@ html, button {
 
 main {
   flex-grow: 1;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -32,7 +22,9 @@ h1 {
   margin-top: 0;
 }
 
-button {
+input,
+button,
+textarea {
   background: black;
   border: 1px dotted white;
   padding: 0.5rem;
@@ -47,15 +39,16 @@ html {
 }
 
 body {
+  margin: 0;
   background-color: black;
-  min-height: calc(100dvh - 2rem);
+  min-height: 100dvh;
 }
 
 .container {
-  margin-left: 4rem;
-  padding-left: 1rem;
+  margin-bottom: 4rem;
+  padding-bottom: 1rem;
 
-  --cell-size: min(12em, 30dvw);
+  --cell-size: min(12em, calc(100dvw / 3));
 
   background-image: radial-gradient(circle, #FFFFFF15 10%, transparent 10%);
 
@@ -64,7 +57,7 @@ body {
   --dot-offset: calc(var(--dot-distance) * 4);
   background-position: var(--dot-offset) -1rem;
 
-  min-height: calc(100dvh - 2rem);
+  min-height: calc(100dvh - 5rem);
 
   position: relative;
   display: flex;
@@ -79,6 +72,8 @@ body {
 }
 
 .footer {
+  display: none;
+
   position: absolute;
   bottom: 1.15rem;
   right: 1rem;
@@ -89,27 +84,26 @@ body {
 }
 
 .navbar {
-  float: left;
-  width: 3rem;
-  height: calc(100dvh - 2rem);
-  padding-right: 1rem;
+  position: fixed;
+  bottom: 0;
+  height: 3rem;
+  width: 100dvw;
+  padding-bottom: 1rem;
 
   display: flex;
-  position: relative;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
 
-  border-right: 1px white dashed;
+  border-top: 1px white dashed;
 }
 
 .navbar a {
   box-sizing: border-box;
-  writing-mode: vertical-rl;
   text-decoration: none;
 }
 
 .navbar .navbar-nav a {
   margin: 0 0 3rem;
+  display: inline-block;
 }
 
 .navbar .navbar-settings a {
@@ -121,14 +115,16 @@ body {
   list-style: none;
 }
 
-.navbar-nav,
-.navbar-settings {
-  display: block;
-  text-align: center;
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  /*text-align: center;*/
 }
 
-.navbar-nav {
+.navbar-nav .nav-item {
   flex-grow: 1;
+  text-align: center;
 }
 
 .navbar-settings {
@@ -151,4 +147,103 @@ body {
 #cookieConsent .buttons {
   display: block;
   margin-top: 1rem;
+}
+
+#mail_input {
+  margin: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, 1fr) 4fr 1fr;
+}
+
+#mail h1 {
+  margin: 1rem;
+}
+
+#mail_input input,
+#mail_input label,
+#mail_input textarea {
+  margin: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+#mail_input .message,
+#mail_input #message {
+  grid-column: span 2;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    margin: 1rem;
+    background-color: black;
+    min-height: calc(100dvh - 2rem);
+  }
+
+  #mail_input {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr) 4fr 1fr;
+  }
+
+  #mail_input .message,
+  #mail_input #Message {
+    grid-column: span 4;
+  }
+
+  .container {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    margin-left: 4rem;
+    padding-left: 1rem;
+    min-height: calc(100dvh - 2rem);
+  }
+
+  .navbar {
+    float: left;
+    width: 3rem;
+    height: calc(100dvh - 2rem);
+    padding-right: 1rem;
+    padding-bottom: 0;
+
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+
+    border-top: none;
+    border-right: 1px white dashed;
+  }
+
+  .navbar-nav {
+    display: block;
+    text-align: center;
+  }
+
+  .navbar a {
+    writing-mode: vertical-rl;
+  }
+
+  .navbar-nav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .navbar-nav .nav-item {
+    flex-shrink: 1;
+    flex-grow: 0;
+  }
+
+  .navbar-nav .nav-item.account {
+    flex-shrink: 0;
+    flex-grow: 1;
+  }
+
+  .footer {
+    display: block;
+  }
 }

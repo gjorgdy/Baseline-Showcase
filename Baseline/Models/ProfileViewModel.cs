@@ -2,8 +2,10 @@
 
 namespace Baseline.Models;
 
-public class ProfileViewModel(int userId, List<GridViewModel>? grids = null)
+public class ProfileViewModel(string displayName, int userId, List<GridViewModel>? grids = null)
 {
+
+    public string DisplayName { get; } = displayName;
 
     public int UserId { get; } = userId;
 
