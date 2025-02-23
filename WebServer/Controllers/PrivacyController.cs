@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebServer.Controllers;
 
-public class HomeController : Controller
+public class PrivacyController : Controller
 {
-
     public IActionResult Index()
     {
         return View();

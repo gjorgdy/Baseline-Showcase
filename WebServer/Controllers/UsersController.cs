@@ -1,8 +1,9 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using Core;
 using Core.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Core.Controllers;
+namespace WebServer.Controllers;
 
 public class UsersController(ILogger<HomeController> logger) : Controller
 {
@@ -18,7 +19,8 @@ public class UsersController(ILogger<HomeController> logger) : Controller
         return View();
     }
 
-    public IActionResult Profile(int? id)
+    [Route("users/{id:int}/profile")]
+    public IActionResult Profile(int id)
     {
         return id == 0
             ? View(HardcodedData.ProfileJordy)
@@ -26,15 +28,17 @@ public class UsersController(ILogger<HomeController> logger) : Controller
     }
 
     [HttpGet]
-    public IActionResult Mail(int? id)
+    [Route("users/{id:int}/mail")]
+    public IActionResult Mail(int id)
     {
         return id == 0
-            ? View(new MailFormModel(id.GetValueOrDefault()))
+            ? View(new MailFormModel(id))
             : RedirectToAction("search");
     }
 
     [HttpPost]
-    public IActionResult Mail([FromForm] MailFormModel model)
+    [Route("users/{id:int}/mail")]
+    public IActionResult Mail([FromForm] MailFormModel model, int id)
     {
         Baseline.MailService.SendMail(
             model.Email,
