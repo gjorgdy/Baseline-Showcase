@@ -185,7 +185,7 @@ body {
   margin: 0.5rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, 1fr) 4fr 1fr;
+  grid-template-rows: repeat(6, 1fr) 4fr 1fr;
 }
 
 #mail h1 {
@@ -200,8 +200,8 @@ body {
   align-items: center;
 }
 
-#mail_input .message,
-#mail_input #message {
+#mail_input textarea,
+#mail_input #Body {
   grid-column: span 2;
 }
 
@@ -221,8 +221,8 @@ body {
     grid-template-rows: repeat(3, 1fr) 4fr 1fr;
   }
 
-  #mail_input .message,
-  #mail_input #Message {
+  #mail_input textarea,
+  #mail_input #Body {
     grid-column: span 4;
   }
 

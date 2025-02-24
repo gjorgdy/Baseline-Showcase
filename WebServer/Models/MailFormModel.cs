@@ -27,6 +27,9 @@ public class MailFormModel(int receiverId = -1, bool sent = false) : ValidatedMo
     [Length(2, 12)]
     public string PhoneNumber { get; init; } = string.Empty;
 
+    [Length(2, 32)]
+    public string Subject { get; init; } = string.Empty;
+
     [Length(2, 1024)]
-    public string Message { get; init; } = string.Empty;
+    public string Body { get; init; } = string.Empty;
 }

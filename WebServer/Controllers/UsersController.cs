@@ -46,8 +46,8 @@ public class UsersController(ILogger<HomeController> logger) : Controller
         Baseline.MailService.SendMail(
             model.Email,
             "jordyreins@gmail.com",
-            model.FirstName,
-            model.Message
+            model.Subject,
+            model.Body
         );
         return View(new MailFormModel(id, true));
     }

@@ -21,8 +21,11 @@
             <label asp-for="PhoneNumber">Phone number</label>
             <input required="required" minlength="2" maxlength="12" asp-for="PhoneNumber">
 
-            <label asp-for="Message">Message</label>
-            <textarea required="required" minlength="2" maxlength="1024" asp-for="Message"></textarea>
+            <label asp-for="Subject">Subject</label>
+            <input required="required" minlength="2" maxlength="32" asp-for="LastName">
+
+            <label asp-for="Body">Message</label>
+            <textarea required="required" minlength="2" maxlength="1024" asp-for="Body"></textarea>
 
             <input type="submit" value="Send" onclick="showLoading()">
         </form>
