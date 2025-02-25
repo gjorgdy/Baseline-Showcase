@@ -26,8 +26,12 @@
 
             <label asp-for="Body">Message</label>
             <textarea required="required" minlength="2" maxlength="1024" asp-for="Body"></textarea>
-
-            <input type="submit" value="Send" onclick="showLoading()">
+            
+            <div class="g-recaptcha" data-sitekey="6LdgNuIqAAAAAGj-0oVb-PLzAbJ9i4eyEkBIu8CP"></div>
+            
+            <input type="submit" value="Send">
+            
+            <label id="error_message">@Model.Error</label>
         </form>
     </div>
 
@@ -50,7 +54,7 @@
 }
 
 <script>
-    function showLoading() {
+    function submit() {
         var form = document.getElementById("mail_input");
         if (form.checkValidity()){
             let mail = document.getElementById("mail");
@@ -58,6 +62,7 @@
 
             mail.style.display = "none";
             loading.style.display = "block";
+            form.submit();
         }
     }
 </script>

@@ -1,9 +1,11 @@
-﻿
+﻿:root {
+    --column-count: 3;
+}
+
 #grid {
     display: grid;
-    grid-template-columns: repeat(3, var(--cell-size));
-    grid-template-rows: repeat(calc(100dvh / var(--cell-size)), var(--cell-size));
     box-sizing: content-box;
+    grid-template-columns: repeat(max(3, var(--column-count)), var(--cell-size));
 }
 
 .tile {

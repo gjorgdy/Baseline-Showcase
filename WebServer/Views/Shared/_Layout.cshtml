@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/grid.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/tile.css" asp-append-version="true"/>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 <header>
@@ -43,7 +44,7 @@
         @* </ul> *@
     </nav>
 </header>
-<div class="container">
+<div id="container" class="center">
     @if (showBanner)
     {
         <partial name="_CookieConsentPartial" />

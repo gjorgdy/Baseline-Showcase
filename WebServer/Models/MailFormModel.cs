@@ -3,7 +3,7 @@ using Core.Validation;
 
 namespace WebServer.Models;
 
-public class MailFormModel(int receiverId = -1, bool sent = false) : ValidatedModel
+public class MailFormModel(int receiverId = -1, bool sent = false, string error = "") : ValidatedModel
 {
 
     // ReSharper disable once UnusedMember.Global
@@ -12,6 +12,10 @@ public class MailFormModel(int receiverId = -1, bool sent = false) : ValidatedMo
     public int ReceiverId { get; init; } = receiverId;
 
     public bool Sent { get; } = sent;
+    
+    public string Error { get; } = error;
+    
+    public string RecaptchaToken {get; init;} = string.Empty;
 
     [Length(2, 16)]
     public string FirstName { get; init; } = string.Empty;

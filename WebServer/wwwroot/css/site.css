@@ -76,11 +76,12 @@ body {
   min-height: 100dvh;
 }
 
-.container {
+#container {
   margin-bottom: 4rem;
   padding-bottom: 1rem;
 
-  --cell-size: min(12em, calc(100dvw / 3));
+  /*--cell-size: 12rem;*/
+  --cell-size: min(200px, calc(100dvw / 3));
 
   background-image: radial-gradient(circle, #FFFFFF15 10%, transparent 10%);
 
@@ -95,7 +96,7 @@ body {
   display: flex;
 }
 
-.container .center {
+#container .center {
   width: 100%;
   height: 100%;
   display: flex;
@@ -151,7 +152,6 @@ body {
   display: flex;
   flex-direction: row;
   width: 100%;
-  /*text-align: center;*/
 }
 
 .navbar-nav .nav-item {
@@ -184,8 +184,8 @@ body {
 #mail_input {
   margin: 0.5rem;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(6, 1fr) 4fr 1fr;
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: repeat(6, 1fr) 4fr auto;
 }
 
 #mail h1 {
@@ -205,10 +205,18 @@ body {
   grid-column: span 2;
 }
 
-@media (min-width: 768px) {
+#error_message {
+  color: red;
+  grid-column: span 2;
+}
+
+@media (min-width: 600px) {
   html {
     font-size: 16px;
   }
+}
+
+@media (min-width: 768px) {
 
   body {
     margin: 1rem;
@@ -226,7 +234,7 @@ body {
     grid-column: span 4;
   }
 
-  .container {
+  #container {
     margin-bottom: 0;
     padding-bottom: 0;
     margin-left: 4rem;
@@ -242,7 +250,7 @@ body {
     padding-bottom: 0;
 
     display: flex;
-    position: relative;
+    /*position: relative;*/
     flex-direction: column;
     justify-content: center;
 
