@@ -42,17 +42,6 @@
     >
 </div>
 
-@if (Model.Sent)
-{
-    <script defer>
-        alert("Your email has been sent");
-        window.onload = function() {
-            const form = document.getElementById("mail_input");
-            form.reset();
-        }
-    </script>
-}
-
 <script>
     function submit() {
         var form = document.getElementById("mail_input");

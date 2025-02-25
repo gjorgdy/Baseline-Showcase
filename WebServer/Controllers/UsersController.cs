@@ -49,6 +49,13 @@ public class UsersController : Controller
             : RedirectToAction("search");
     }
 
+    [HttpGet]
+    [Route("users/mailsuccess")]
+    public IActionResult MailSuccess()
+    {
+        return View();
+    }
+    
     [HttpPost]
     [Route("users/{id:int}/mail")]
     public async Task<ActionResult> Mail([FromForm] MailFormModel model, int id)
@@ -66,7 +73,7 @@ public class UsersController : Controller
             model.Subject,
             model.Body
         );
-        return View(new MailFormModel(id, true));
+        return RedirectToAction("MailSuccess");
     }
     
     private async Task<bool> IsReCaptchaValid(string? recaptchaToken)
