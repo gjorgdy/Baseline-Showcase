@@ -1,11 +1,21 @@
 ﻿:root {
-    --column-count: 3;
+    --column-count: 0;
+    --row-count: 0;
 }
 
-#grid {
+#grids {
+    display: flex;
+    flex-direction: row;
+    max-height: 100%;
+    overflow-y: hidden;
+}
+
+.grid {
     display: grid;
     box-sizing: content-box;
-    grid-template-columns: repeat(max(3, var(--column-count)), var(--cell-size));
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, var(--cell-size));
+    grid-template-rows: repeat(var(--row-count), var(--cell-size));
 }
 
 .tile {

@@ -239,28 +239,24 @@ body {
     padding-bottom: 0;
     margin-left: 4rem;
     padding-left: 1rem;
-    min-height: calc(100dvh - 2rem);
+    height: calc(100dvh - 2rem);
   }
 
   .navbar {
+    top: 1rem;
     float: left;
     width: 3rem;
     height: calc(100dvh - 2rem);
     padding-right: 1rem;
     padding-bottom: 0;
+    background: black;
 
     display: flex;
-    /*position: relative;*/
     flex-direction: column;
     justify-content: center;
 
     border-top: none;
     border-right: 1px white dashed;
-  }
-
-  .navbar-nav {
-    display: block;
-    text-align: center;
   }
 
   .navbar a {
@@ -269,6 +265,7 @@ body {
 
   .navbar-nav {
     display: flex;
+    text-align: center;
     flex-direction: column;
     height: 100%;
   }

@@ -5,55 +5,99 @@
     ViewData["Title"] = "Jordy Reins";
 }
 
+<div id="grids">
 @foreach (var gridViewModel in Model.Grids)
 {
-    <div id="grid">
-        @foreach (var tileViewModel in gridViewModel.Tiles)
+    <div class="grid">
+    @foreach (var tileViewModel in gridViewModel.Tiles)
+    {
+        <div class="tile" style="
+            grid-row: span @tileViewModel.Height;
+            grid-column: span @tileViewModel.Width;
+            height: calc(@tileViewModel.Height * var(--cell-size));
+            width: calc(@tileViewModel.Width * var(--cell-size));
+            aspect-ratio: @tileViewModel.Width/@tileViewModel.Height;
+        ">
+        @switch (tileViewModel)
         {
-            <div class="tile" style="
-                grid-row: span @tileViewModel.Height;
-                grid-column: span @tileViewModel.Width;
-                height: calc(@tileViewModel.Height * var(--cell-size));
-                width: calc(@tileViewModel.Width * var(--cell-size));
-                aspect-ratio: @tileViewModel.Width/@tileViewModel.Height;
-            ">
-                @switch (tileViewModel)
-                {
-                    case PictureTileViewModel tile:
-                        @await Html.PartialAsync("_PictureTilePartial", tile)
-                        break;
-                    case NameTileViewModel tile:
-                        @await Html.PartialAsync("_NameTilePartial", tile)
-                        break;
-                    case ParagraphTileViewModel tile:
-                        @await Html.PartialAsync("_ParagraphTilePartial", tile)
-                        break;
-                    case ExperiencesTileViewModel tile:
-                        @await Html.PartialAsync("_ExperiencesTilePartial", tile)
-                        break;
-                    case SkillsTileViewModel tile:
-                        @await Html.PartialAsync("_SkillsTilePartial", tile)
-                        break;
-                    case SpotifyTileViewModel tile:
-                        @await Html.PartialAsync("_SpotifyTilePartial", tile)
-                        break;
-                    case MailTileViewModel tile:
-                        @await Html.PartialAsync("_MailTilePartial", tile)
-                        break;
-                }
-            </div>
+            case PictureTileViewModel tile:
+                @await Html.PartialAsync("_PictureTilePartial", tile)
+                break;
+            case NameTileViewModel tile:
+                @await Html.PartialAsync("_NameTilePartial", tile)
+                break;
+            case ParagraphTileViewModel tile:
+                @await Html.PartialAsync("_ParagraphTilePartial", tile)
+                break;
+            case ExperiencesTileViewModel tile:
+                @await Html.PartialAsync("_ExperiencesTilePartial", tile)
+                break;
+            case SkillsTileViewModel tile:
+                @await Html.PartialAsync("_SkillsTilePartial", tile)
+                break;
+            case SpotifyTileViewModel tile:
+                @await Html.PartialAsync("_SpotifyTilePartial", tile)
+                break;
+            case MailTileViewModel tile:
+                @await Html.PartialAsync("_MailTilePartial", tile)
+                break;
         }
+        </div>
+    }
     </div>
 }
+</div>
 
 <script>
-    window.addEventListener("resize", calculateGridSize);
-    window.addEventListener("load", calculateGridSize);
+    window.addEventListener("resize", function () {
+        calculateGridSize();
+        splitElements();
+    });
+    window.addEventListener("DOMContentLoaded", function () {
+        calculateGridSize();
+        splitElements();
+    });
+
+    var columnCount;
+    var rowCount;
+
     function calculateGridSize() {
         const cellSize = 200; // Example of cell size in pixels
         const container = document.getElementById("container")
-        let columnCount = Math.floor(container.offsetWidth / cellSize);
-        columnCount = columnCount - (columnCount % 3); 
-        document.documentElement.style.setProperty('--column-count', columnCount);
+        columnCount = Math.floor(container.offsetWidth / cellSize);
+        columnCount = columnCount - (columnCount % 3);
+        rowCount = Math.floor(window.innerHeight / cellSize);
+        container.style.setProperty('--column-count', columnCount);
+        container.style.setProperty('--row-count', rowCount);
+    }
+
+    function splitElements() {
+        const grids = document.getElementById("grids");
+        // Reset
+        for (let i = grids.children.length - 1; i > 0; i--) {
+            for (let tile of grids.children[i].children) {
+                grids.children[i - 1].append(tile);
+            }
+        }
+        // Split
+        for (let i = 0; i < grids.children.length; i++) {
+            let grid = grids.children[i];
+            let newGrid;
+            if (grid && grid.scrollHeight > grid.clientHeight) {
+                if (grids.children[i+1] == null) {
+                    newGrid = document.createElement("div");
+                    newGrid.classList.add("grid");
+                    grids.appendChild(newGrid);
+                } else {
+                    newGrid = grids.children[i+1];
+                }
+            } else {
+                return;
+            }
+            while (grid.scrollHeight > grid.clientHeight) {
+                const child = grid.lastElementChild;
+                newGrid.prepend(child);
+            }
+        }
     }
 </script>
