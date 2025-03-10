@@ -94,6 +94,8 @@ body {
 
   position: relative;
   display: flex;
+  
+  overflow: hidden;
 }
 
 #container .center {
@@ -127,6 +129,9 @@ body {
   flex-direction: row;
 
   border-top: 1px white dashed;
+  
+  z-index: 2;
+  background-color: black;
 }
 
 .navbar a {
@@ -239,7 +244,7 @@ body {
     padding-bottom: 0;
     margin-left: 4rem;
     padding-left: 1rem;
-    height: calc(100dvh - 2rem);
+    min-height: calc(100dvh - 2rem);
   }
 
   .navbar {

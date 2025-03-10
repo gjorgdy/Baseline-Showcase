@@ -49,62 +49,22 @@
 </div>
 
 <script>
-    window.addEventListener("resize", function () {
-        calculateGridSize();
-        splitElements();
-    });
-    window.addEventListener("DOMContentLoaded", function () {
-        calculateGridSize();
-        splitElements();
+    window.addEventListener("resize", calculateGridSize);
+    window.addEventListener("DOMContentLoaded", calculateGridSize);
+
+    function setupGrid() {
+        const cellSize = 200; // Example of cell size in pixels
+        const container = document.getElementById("container")
+        let columnCount = Math.floor(container.offsetWidth / cellSize);
+        columnCount = columnCount - (columnCount % 3);
+        container.style.setProperty('--column-count', columnCount);
+        
         const grids = document.getElementById("grids")
         for (let grid of grids.children) {
             new Sortable(grid, {
                 group: "grids",
                 animation: 150
             });
-        }
-    });
-
-    var columnCount;
-    var rowCount;
-
-    function calculateGridSize() {
-        const cellSize = 200; // Example of cell size in pixels
-        const container = document.getElementById("container")
-        columnCount = Math.floor(container.offsetWidth / cellSize);
-        columnCount = columnCount - (columnCount % 3);
-        rowCount = Math.floor(window.innerHeight / cellSize);
-        container.style.setProperty('--column-count', columnCount);
-        container.style.setProperty('--row-count', rowCount);
-    }
-
-    function splitElements() {
-        const grids = document.getElementById("grids");
-        // Reset
-        for (let i = grids.children.length - 1; i > 0; i--) {
-            for (let tile of grids.children[i].children) {
-                grids.children[i - 1].append(tile);
-            }
-        }
-        // Split
-        for (let i = 0; i < grids.children.length; i++) {
-            let grid = grids.children[i];
-            let newGrid;
-            if (grid && grid.scrollHeight > grid.clientHeight) {
-                if (grids.children[i+1] == null) {
-                    newGrid = document.createElement("div");
-                    newGrid.classList.add("grid");
-                    grids.appendChild(newGrid);
-                } else {
-                    newGrid = grids.children[i+1];
-                }
-            } else {
-                return;
-            }
-            while (grid.scrollHeight > grid.clientHeight) {
-                const child = grid.lastElementChild;
-                newGrid.prepend(child);
-            }
         }
     }
 </script>
