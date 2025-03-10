@@ -49,8 +49,8 @@
 </div>
 
 <script>
-    window.addEventListener("resize", calculateGridSize);
-    window.addEventListener("DOMContentLoaded", calculateGridSize);
+    window.addEventListener("resize", setupGrid);
+    window.addEventListener("DOMContentLoaded", setupGrid);
 
     function setupGrid() {
         const cellSize = 200; // Example of cell size in pixels
@@ -58,7 +58,7 @@
         let columnCount = Math.floor(container.offsetWidth / cellSize);
         columnCount = columnCount - (columnCount % 3);
         container.style.setProperty('--column-count', columnCount);
-        
+
         const grids = document.getElementById("grids")
         for (let grid of grids.children) {
             new Sortable(grid, {
