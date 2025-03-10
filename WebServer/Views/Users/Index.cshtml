@@ -56,6 +56,13 @@
     window.addEventListener("DOMContentLoaded", function () {
         calculateGridSize();
         splitElements();
+        const grids = document.getElementById("grids")
+        for (let grid of grids.children) {
+            new Sortable(grid, {
+                group: "grids",
+                animation: 150
+            });
+        }
     });
 
     var columnCount;
