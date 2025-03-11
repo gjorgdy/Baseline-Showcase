@@ -7,10 +7,10 @@
 
 <div class="center">
     <div>
+        <h1>@ViewData["Title"]</h1>
+        <p>Choose a platform to log in with</p>
         @foreach (var platform in Model.Platforms)
         {
-            <h1>@ViewData["Title"]</h1>
-            <p>Choose a platform to log in with</p>
             <a href="@platform.Url">@platform.Platform</a>
         }
     </div>
