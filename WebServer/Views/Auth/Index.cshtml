@@ -1,7 +1,4 @@
-﻿@using WebServer.Models
-@model AuthPageModel
-
-@{
+﻿@{
     ViewData["Title"] = "Login";
 }
 
@@ -9,9 +6,9 @@
     <div>
         <h1>@ViewData["Title"]</h1>
         <p>Choose a platform to log in with</p>
-        @foreach (var platform in Model.Platforms)
+        @foreach (var platform in Baseline.GetAllOAuthPlatforms())
         {
-            <a href="@platform.Url">@platform.Platform</a>
+            <a href="@platform.OAuthUrl">@platform.PlatformName</a>
         }
     </div>
 </div>
