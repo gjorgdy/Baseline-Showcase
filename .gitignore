@@ -3,3 +3,10 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+
+/Tests/Tests.csproj
+*.env
+*.pem
+/WebServer/client_secrets.json
+/WebServer/WebServer.csproj
+/WebServer/
