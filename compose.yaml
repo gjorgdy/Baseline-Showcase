@@ -1,0 +1,19 @@
+﻿services:
+  
+  baseline:
+    image: baseline
+    build:
+      context: .
+      dockerfile: Baseline/Dockerfile
+      
+  database:
+    image: 'postgres:16.4'
+    container_name: baseline-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./bin/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: baseline
+      POSTGRES_PASSWORD: baseline
+      POSTGRES_DB: baseline
