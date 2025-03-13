@@ -16,6 +16,12 @@
 
     <ItemGroup>
       <None Include="bin\Debug\net8.0\.env" />
+      <None Update="private_key.pem">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="public_key.pem">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

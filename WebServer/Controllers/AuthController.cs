@@ -1,6 +1,9 @@
-﻿using Core;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Core;
 using Core.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using WebServer.Models;
 
 namespace WebServer.Controllers;
@@ -8,7 +11,6 @@ namespace WebServer.Controllers;
 [Route("auth")]
 public class AuthController : Controller
 {
-    
     public IActionResult Index() => View();
     
     [Route("success")]
