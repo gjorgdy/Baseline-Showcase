@@ -20,7 +20,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Core\Core.csproj" />
-      <ProjectReference Include="..\MailTrap\MailTrap.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -69,6 +68,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
       <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
       <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\LICENSE" />
+      <_ContentIncludedByDefault Remove="Views\Contact\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Contact\Success.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

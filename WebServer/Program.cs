@@ -1,7 +1,6 @@
 using Core;
-using MailTrap;
 
-_ = new Baseline(new Mail());
+_ = new Baseline();
 
 var builder = WebApplication.CreateBuilder(args);
 

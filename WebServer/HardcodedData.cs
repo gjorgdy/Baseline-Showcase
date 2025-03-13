@@ -100,13 +100,6 @@ public static class HardcodedData
                     1,
                     1,
                     "https://open.spotify.com/playlist/27Byq479ZJuUzGDagJfMD9?si=3f8838236bf94da9"
-                ),
-                // Mail
-                new MailTileViewModel(
-                    "Contact me",
-                    1,
-                    1,
-                    UserIdJordy
                 )
             ])
     ]);
