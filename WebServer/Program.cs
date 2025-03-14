@@ -1,4 +1,7 @@
 using Core;
+using dotenv.net;
+using Microsoft.EntityFrameworkCore;
+using PostgreSQL;
 
 _ = new Baseline();
 
@@ -10,6 +13,12 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 {
     options.CheckConsentNeeded = context => true;
     options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+builder.Services.AddDbContextPool<PostgresDbContext>(opt =>
+{
+    DotEnv.Load();
+    var env = DotEnv.Read();
+    opt.UseNpgsql($"Host={env["POSTGRES_URI"]};Database={env["POSTGRES_DATABASE"]};Username={env["POSTGRES_USERNAME"]};Password={env["POSTGRES_PASSWORD"]}");
 });
 
 var app = builder.Build();
