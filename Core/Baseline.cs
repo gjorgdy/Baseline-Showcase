@@ -6,8 +6,8 @@ namespace Core;
 public class Baseline
 {
     private static readonly Dictionary<string, OAuthPlatform> OAuthPlatforms = [];
-    
     public static HttpClient HttpClient { get; private set; } = null!;
+    // public static IDataAccess DataAccess { get; private set; } = null!;
 
     public Baseline()
     {

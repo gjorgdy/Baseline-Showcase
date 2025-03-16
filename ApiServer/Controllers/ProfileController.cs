@@ -1,20 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Core.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using PostgreSQL;
 
 namespace ApiServer.Controllers;
 
 [Route("users/{id:int}/profile")]
-public class ProfileController : Controller
+public class ProfileController(DataAccess dataAccess) : Controller
 {
 
     [HttpGet("")]
     public IActionResult GetProfile(int id, int? tileStartIndex, int? tileEndIndex)
-    {
-       return Ok(
-           new List<int>
+    { 
+        string? name = dataAccess.GetUserAccess(id)?.GetDisplayName();
+        return Ok(
+           new List<string>
            {
-               id,
-               tileStartIndex ?? 0,
-               tileEndIndex ?? 0
+               name ?? "no name",
            }
         );
     }

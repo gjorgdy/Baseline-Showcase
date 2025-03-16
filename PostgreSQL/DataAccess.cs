@@ -2,7 +2,7 @@
 
 namespace PostgreSQL;
 
-public class PostgreSql(PostgresDbContext dbContext) : IDataAccess
+public class DataAccess(PostgresDbContext dbContext) : IDataAccess
 {
     public AUserAccess? GetUserAccess(int userId)
     {

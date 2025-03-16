@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PostgreSQL.Models;
 
-[PrimaryKey("Name")]
+[PrimaryKey("Id")]
 public class Role
 {
     

@@ -1,3 +1,7 @@
+using dotenv.net;
+using Microsoft.EntityFrameworkCore;
+using PostgreSQL;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+
+builder.Services.AddDbContextPool<PostgresDbContext>(opt =>
+{
+    DotEnv.Load();
+    var env = DotEnv.Read();
+    opt.UseNpgsql($"""
+                      Host={env["POSTGRES_URI"]};
+                      Database={env["POSTGRES_DATABASE"]};
+                      Username={env["POSTGRES_USERNAME"]};
+                      Password={env["POSTGRES_PASSWORD"]}
+                   """);
+});
+builder.Services.AddScoped<DataAccess>();
 
 var app = builder.Build();
 
