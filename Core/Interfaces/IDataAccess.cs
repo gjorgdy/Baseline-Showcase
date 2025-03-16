@@ -2,9 +2,8 @@
 
 public interface IDataAccess
 {
-
-    public int GetUserId(string platform, string platformId);
+    public AUserAccess? GetUserAccess(int userId);
+    public AUserAccess? GetUserAccess(string platform, string platformId);
+    public IRoleAccess GetRoleAccess();
     
-    public string? GetUserDisplayName(int id);
-
 }

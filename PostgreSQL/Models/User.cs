@@ -16,4 +16,6 @@ public class User
     public required ICollection<Tile> Tiles { get; init; }
     
     public required ICollection<Role> Roles { get; init; }
+    
+    public required ICollection<Connection> Connections { get; init; }
 }

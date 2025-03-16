@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 
 namespace PostgreSQL.Models;
@@ -17,10 +18,9 @@ public class Tile
     [ForeignKey("Id")]
     public Guid? NextId { get; set; }
 
-    [NpgsqlTypes.PgName("Jsonb")]
-    public required string Attributes { get; set; }
+    public JsonDocument Attributes { get; set; } = JsonDocument.Parse("{}");
     
-    public required Tile NextTile { get; set; }
+    public Tile? NextTile { get; set; }
     
-    public required User User { get; set; }
+    public User? User { get; set; }
 }
