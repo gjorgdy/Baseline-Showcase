@@ -8,14 +8,14 @@ public class Role
 {
     
     [StringLength(16)]
-    public required string Name { get; set; }
+    public required string Id { get; set; }
     
     [StringLength(16)]
     public required string DisplayName { get; set; }
     
     [StringLength(16)]
     public required string Platform { get; set; }
-    
-    public required ICollection<User> Users { get; init; }
-    
+
+    public ICollection<User> Users { get; init; } = [];
+
 }

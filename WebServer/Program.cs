@@ -18,7 +18,12 @@ builder.Services.AddDbContextPool<PostgresDbContext>(opt =>
 {
     DotEnv.Load();
     var env = DotEnv.Read();
-    opt.UseNpgsql($"Host={env["POSTGRES_URI"]};Database={env["POSTGRES_DATABASE"]};Username={env["POSTGRES_USERNAME"]};Password={env["POSTGRES_PASSWORD"]}");
+    opt.UseNpgsql($"""
+       Host={env["POSTGRES_URI"]};
+       Database={env["POSTGRES_DATABASE"]};
+       Username={env["POSTGRES_USERNAME"]};
+       Password={env["POSTGRES_PASSWORD"]}
+    """);
 });
 
 var app = builder.Build();

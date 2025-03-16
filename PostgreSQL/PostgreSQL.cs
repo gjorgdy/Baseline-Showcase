@@ -4,17 +4,21 @@ namespace PostgreSQL;
 
 public class PostgreSql(PostgresDbContext dbContext) : IDataAccess
 {
-    
-    public int GetUserId(string platform, string platformId)
+    public AUserAccess? GetUserAccess(int userId)
     {
-        throw new NotImplementedException();
+        var user = dbContext.Users.FirstOrDefault(user => user.Id == userId);
+        return user == null ? null : new UserAccess(user, dbContext);
     }
 
-    public string? GetUserDisplayName(int id)
+    public AUserAccess? GetUserAccess(string platform, string platformId)
     {
-        return dbContext.Users
-            .Where(u => u.Id == id)
-            .Select(u => u.DisplayName)
-            .FirstOrDefault();
+        var user = dbContext.Users.FirstOrDefault(user => user.Connections.Any(
+            connection => connection.Platform == platform 
+                && connection.PlatformId == platformId
+            )
+        );
+        return user == null ? null : new UserAccess(user, dbContext);
     }
+
+    public IRoleAccess GetRoleAccess() => new RoleAccess(dbContext);
 }
