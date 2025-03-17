@@ -1,12 +1,11 @@
-﻿using Core.Interfaces;
-using Core.Models;
+﻿using Core.Models;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiServer.Controllers;
 
 [Route("users/{id:int}/profile")]
-public class ProfileController(TileService tileService, UserService userService) : Controller
+public class ProfileController(TileService tileService, UserService userService) : AAuthController
 {
 
     [HttpGet("")]
@@ -27,7 +26,8 @@ public class ProfileController(TileService tileService, UserService userService)
     [HttpPut("")]
     public IActionResult PutTile(int id, [FromBody] int? targetIndex, [FromBody] object? tile)
     {
-        return Ok(id);
+        int? userId = ValidateToken();
+        return Ok(userId ?? -1);
     }
 
     [HttpPatch("{index:int}")]

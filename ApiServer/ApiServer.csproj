@@ -17,4 +17,13 @@
       <ProjectReference Include="..\PostgreSQL\PostgreSQL.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="private_key.pem">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="public_key.pem">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

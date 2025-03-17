@@ -13,28 +13,28 @@ public class AuthController(UserService userService) : Controller
     public IActionResult Index()
     {
         string? token = HttpContext.Request.Cookies["JwtToken"];
-        if (token == null)
-            return View();
+        if (token == null) return View();
         var tokenHandler = new JwtTokenHandler();
-        TempData["Model"] = tokenHandler.ValidateToken(token);
+        string userId = tokenHandler.ValidateToken(token);
+        TempData["UserId"] = userId;
         return RedirectToAction("LoggedIn", "Auth");
     }
 
     [Route("logged-in")]
     public IActionResult LoggedIn()
     {
-        TempData.TryGetValue("Model", out object? value);
+        TempData.TryGetValue("UserId", out object? value);
         return View(new AuthStatusModel(
-            value?.ToString() ?? "No Auth request was received"
+            value == null 
+                ? "Token is no longer valid."
+                : $"Logged in as user {value}"
         ));
     }
     
     [Route("success")]
-    public async Task<IActionResult> Success(string response)
+    public IActionResult Success(string response)
     {
-        TempData.TryGetValue("Model", out object? value);
-        // Adding a cookie
-        await Console.Out.WriteLineAsync($"UserValue: {value}");
+        TempData.TryGetValue("UserId", out object? value);
         var tokenHandler = new JwtTokenHandler();
         HttpContext.Response.Cookies.Append(
             "JwtToken", 
@@ -64,12 +64,11 @@ public class AuthController(UserService userService) : Controller
         if (platformId != null)
         {
             var user = await userService.GetUser(platform, platformId);
-            await Console.Out.WriteLineAsync($"User: {user?.Id}");
-            TempData["Model"] = user?.Id;
+            TempData["UserId"] = user?.Id;
         }
         else
         {
-            TempData["Model"] = null;
+            TempData["UserId"] = null;
         }
         return RedirectToAction("Success", "Auth");
     }
