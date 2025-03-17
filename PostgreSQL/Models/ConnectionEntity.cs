@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace PostgreSQL.Models;
 
 [PrimaryKey("UserId", ["Platform"])]
-public class Connection
+public class ConnectionEntity
 {
 
     [ForeignKey("Id")]
@@ -17,6 +18,8 @@ public class Connection
     [StringLength(128)]
     public required string PlatformId { get; set; }
     
-    [Required]
-    public required User User { get; init; }
+    public UserEntity UserEntity { get; init; }
+    
+    public ConnectionModel GetModel() => new(UserId, Platform, PlatformId);
+    
 }

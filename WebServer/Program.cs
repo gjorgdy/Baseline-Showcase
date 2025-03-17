@@ -1,8 +1,10 @@
 using Core;
 using Core.Interfaces;
+using Core.Services;
 using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL;
+using PostgreSQL.Access;
 
 _ = new Baseline();
 
@@ -27,7 +29,18 @@ builder.Services.AddDbContextPool<PostgresDbContext>(opt =>
                       Password={env["POSTGRES_PASSWORD"]}
                    """);
 });
-builder.Services.AddScoped<DataAccess>();
+// user
+builder.Services.AddScoped<IUserAccess, UserAccess>();
+builder.Services.AddScoped<UserService>();
+// tile
+builder.Services.AddScoped<ITileAccess, TileAccess>();
+builder.Services.AddScoped<TileService>();
+// role
+builder.Services.AddScoped<IRoleAccess, RoleAccess>();
+builder.Services.AddScoped<RoleService>();
+// connection
+builder.Services.AddScoped<IConnectionAccess, ConnectionAccess>();
+builder.Services.AddScoped<ConnectionService>();
 
 var app = builder.Build();
 

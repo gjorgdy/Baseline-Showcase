@@ -6,7 +6,7 @@ namespace PostgreSQL;
 
 public class RoleAccess(PostgresDbContext dbContext) : IRoleAccess
 {
-    private async Task<Role?> GetRole(string platform, string id)
+    private async Task<RoleEntity?> GetRole(string platform, string id)
     {
         return await dbContext.Roles.FirstOrDefaultAsync(r => 
             r.Platform == platform && r.Id == id
@@ -15,7 +15,7 @@ public class RoleAccess(PostgresDbContext dbContext) : IRoleAccess
     
     public async Task<bool> CreateRole(string platform, string id, string displayName)
     {
-        dbContext.Roles.Add(new Role
+        dbContext.Roles.Add(new RoleEntity
         {
             Platform = platform,
             Id = id,

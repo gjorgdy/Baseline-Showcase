@@ -1,23 +1,27 @@
 ﻿using Core.Interfaces;
+using Core.Models;
+using Core.Services;
 using Microsoft.AspNetCore.Mvc;
-using PostgreSQL;
 
 namespace ApiServer.Controllers;
 
 [Route("users/{id:int}/profile")]
-public class ProfileController(DataAccess dataAccess) : Controller
+public class ProfileController(TileService tileService, UserService userService) : Controller
 {
 
     [HttpGet("")]
-    public IActionResult GetProfile(int id, int? tileStartIndex, int? tileEndIndex)
-    { 
-        string? name = dataAccess.GetUserAccess(id)?.GetDisplayName();
-        return Ok(
-           new List<string>
-           {
-               name ?? "no name",
-           }
-        );
+    public async Task<IActionResult> GetProfile(int id)
+    {
+        var user = await userService.GetUser(id);
+        var tiles = await tileService.GetTiles(id);
+        if (user != null)
+            return Ok(
+                new ProfileModel(
+                    user,
+                    tiles
+                )
+            );
+        return NotFound();
     }
 
     [HttpPut("")]

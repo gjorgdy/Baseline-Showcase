@@ -1,26 +1,26 @@
 ﻿using Core.Interfaces;
 using PostgreSQL.Models;
 
-namespace PostgreSQL;
+namespace PostgreSQL.Access;
 
-public class ConnectionAccess(User user, PostgresDbContext dbContext) : AConnectionAccess
+public class ConnectionAccess(PostgresDbContext dbContext) : IConnectionAccess
 {
-    public override async Task<bool> AddConnection(string platform, string platformId)
+    public async Task<bool> AddConnection(int userId, string platform, string platformId)
     {
-        await dbContext.Connections.AddAsync(new Connection()
+        await dbContext.Connections.AddAsync(new ConnectionEntity()
         {
+            UserId = userId,
             Platform = platform,
-            PlatformId = platformId,
-            User = user
+            PlatformId = platformId
         });
         return await dbContext.SaveChangesAsync() > 0;
     }
 
-    public override async Task<bool> DeleteConnection(string platform)
+    public async Task<bool> DeleteConnection(int userId, string platform)
     {
         var connection = dbContext.Connections.FirstOrDefault(x => 
             x.Platform == platform
-            && x.User == user
+            && x.UserId == userId
         );
         if (connection == null) return false;
         dbContext.Connections.Remove(connection);

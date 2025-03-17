@@ -1,4 +1,5 @@
-﻿using Core.Authentication;
+﻿using System.Runtime.Serialization;
+using Core.Authentication;
 using Core.Interfaces;
 
 namespace Core;
@@ -22,5 +23,4 @@ public class Baseline
     
     public static OAuthPlatform GetOAuthPlatform(string platform) => OAuthPlatforms[platform];
     public static IEnumerable<OAuthPlatform> GetAllOAuthPlatforms() => OAuthPlatforms.Values;
-
 }
