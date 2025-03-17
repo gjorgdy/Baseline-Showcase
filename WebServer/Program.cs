@@ -5,6 +5,7 @@ using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL;
 using PostgreSQL.Access;
+using PostgreSQL.Implementations;
 
 _ = new Baseline();
 

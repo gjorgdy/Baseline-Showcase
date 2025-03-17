@@ -4,6 +4,7 @@ using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL;
 using PostgreSQL.Access;
+using PostgreSQL.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -18,7 +18,7 @@ public class ConnectionEntity
     [StringLength(128)]
     public required string PlatformId { get; set; }
     
-    public UserEntity UserEntity { get; init; }
+    public UserEntity User { get; init; }
     
     public ConnectionModel GetModel() => new(UserId, Platform, PlatformId);
     

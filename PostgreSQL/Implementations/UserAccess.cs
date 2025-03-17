@@ -3,7 +3,7 @@ using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL.Models;
 
-namespace PostgreSQL.Access;
+namespace PostgreSQL.Implementations;
 
 public class UserAccess(PostgresDbContext dbContext) : IUserAccess
 {
@@ -11,9 +11,9 @@ public class UserAccess(PostgresDbContext dbContext) : IUserAccess
     private async Task<UserEntity?> GetUserEntity(string platform, string platformId)
     {
         var conn = await dbContext.Connections
-            .Include(c => c.UserEntity)
+            .Include(c => c.User)
             .FirstOrDefaultAsync(c => c.Platform == platform && c.PlatformId == platformId);
-        return conn?.UserEntity;
+        return conn?.User;
     }
     
     public async Task<UserModel?> GetUser(int id)
