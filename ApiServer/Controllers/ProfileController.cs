@@ -1,10 +1,10 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
+using Core.Exceptions;
 using Core.Models;
 using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace ApiServer.Controllers;
 
@@ -36,22 +36,71 @@ public class ProfileController(TileService tileService, UserService userService)
         await Console.Out.WriteLineAsync($"User's id: {userId}");
         // If client tries to modify another profile
         if (userId != id) return Forbid();
-        // Update tile
+        // Add tile
         var tile = await tileService.AddTile(id, tileAttributes);
         if (tile != null) return Ok(tile);
         else return NotFound();
     }
 
-    [HttpPatch("{index:int}")]
-    public IActionResult PatchTile(int id, int index, [FromBody] int? targetIndex, [FromBody] object? tile)
+    [HttpPatch("{tileId:Guid}")]
+    [Authorize]
+    public async Task<IActionResult> PatchTile(int id, Guid tileId, [FromBody] JsonDocument tileAttributes)
     {
-        return Ok($"Update tile at index {index}, moved to index {targetIndex ?? -1} \n {tile}");
+        var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+        int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        // If client tries to modify another profile
+        if (userId != id) return Forbid();
+        // Update tile
+        bool status;
+        try
+        {
+            status = await tileService.UpdateTile(id, tileId, tileAttributes);
+        }
+        catch (InvalidTileAttributesException e)
+        {
+            return BadRequest(e.Message);
+        }
+        return status ? Ok() : NotFound();
     }
 
-    [HttpDelete("{index:int}")]
-    public IActionResult PatchTile(int id, int index)
+    [HttpDelete("{tileId:Guid}")]
+    public async Task<IActionResult> PatchTile(int id, Guid tileId)
     {
-        return Ok($"Deleted tile at index {index}");
+        var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+        int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        // If client tries to modify another profile
+        if (userId != id) return Forbid();
+        // Update tile
+        bool status;
+        try
+        {
+            status = await tileService.DeleteTile(id, tileId);
+        }
+        catch (InvalidTileAttributesException e)
+        {
+            return BadRequest(e.Message);
+        }
+        return status ? Ok() : NotFound();
+    }
+
+    [HttpPatch("{tileId:Guid}/move/{afterTileId:Guid}")]
+    public async Task<IActionResult> PatchTile(int id, Guid tileId, Guid afterTileId)
+    {
+        var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+        int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        // If client tries to modify another profile
+        if (userId != id) return Forbid();
+        // Update tile
+        bool status;
+        try
+        {
+            status = await tileService.MoveTile(id, tileId, afterTileId);
+        }
+        catch (InvalidTileAttributesException e)
+        {
+            return BadRequest(e.Message);
+        }
+        return status ? Ok() : NotFound();
     }
 
 }

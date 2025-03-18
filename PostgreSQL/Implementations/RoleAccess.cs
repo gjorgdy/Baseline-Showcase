@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL.Models;
 
-namespace PostgreSQL;
+namespace PostgreSQL.Implementations;
 
 public class RoleAccess(PostgresDbContext dbContext) : IRoleAccess
 {

@@ -2,4 +2,4 @@
 
 namespace Core.Models;
 
-public record TileModel(Guid Id, JsonDocument Attributes, Guid? NextTileId, int UserId);
+public record TileModel(Guid Id, JsonDocument Attributes, Guid? NextTileId);

@@ -19,12 +19,20 @@ public class TileAccess(PostgresDbContext dbContext) : ITileAccess
         );
     }
 
-    public async Task<TileModel?> GetTile(Guid tileId) {
-        var tileEntity = await dbContext.Tiles.FirstOrDefaultAsync(t => t.Id == tileId);
+    private async Task<TileEntity?> GetTileEntity(int userId, Guid tileId)
+    {
+        return await dbContext.Tiles.FirstOrDefaultAsync(t => 
+            t.Id == tileId
+            && t.UserId == userId
+        );
+    }
+    
+    public async Task<TileModel?> GetTile(int userId, Guid tileId) {
+        var tileEntity = await GetTileEntity(userId, tileId);
         return tileEntity?.GetModel();
     }
 
-    public async Task<Guid> AddTile(int userId, string attributeJson)
+    public async Task<TileModel?> AddTile(int userId, string attributeJson)
     {
         // Add new tile
         var tile = dbContext.Tiles.Add(new TileEntity
@@ -41,13 +49,13 @@ public class TileAccess(PostgresDbContext dbContext) : ITileAccess
         if (previousTile != null) previousTile.NextTile = tile.Entity;
         // Commit changes
         await dbContext.SaveChangesAsync();
-        return tile.Entity.Id;
+        return tile.Entity.GetModel();
     }
 
-    public async Task<bool> UpdateTile(Guid id, string attributeJson)
+    public async Task<bool> UpdateTile(int userId, Guid id, string attributeJson)
     {
         var tile = await dbContext.Tiles.FirstOrDefaultAsync(t => t.Id == id);
-        if (tile == null) return false;
+        if (tile == null) throw new NullReferenceException();
         tile.Attributes = attributeJson;
         return await dbContext.SaveChangesAsync() > 0;
     }
@@ -56,22 +64,25 @@ public class TileAccess(PostgresDbContext dbContext) : ITileAccess
     /// Move tile 'C' between tile 'A' and 'B'
     /// </summary>
     /// <returns></returns>
-    public async Task<bool> MoveTile(Guid tileCId, Guid tileAId)
+    public async Task<bool> MoveTile(int userId, Guid tileCId, Guid tileAId)
     {
-        await RemoveLink(tileCId);
         // Tile C after A, before B
-        var tileA = await dbContext.Tiles.FirstOrDefaultAsync(t => t.Id == tileAId);
-        var tileC = await dbContext.Tiles.FirstOrDefaultAsync(t => t.Id == tileCId);
-        if (tileA == null || tileC == null) return false;
+        var tileA = await GetTileEntity(userId, tileAId);
+        var tileC = await GetTileEntity(userId, tileCId);
+        if (tileA == null || tileC == null) throw new NullReferenceException();
+        await RemoveLink(tileC);
         var tileBId = tileA.NextTileId;
         tileA.NextTileId = tileCId;
         tileC.NextTileId = tileBId;
         return await dbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> DeleteTile(Guid id)
+    public async Task<bool> DeleteTile(int userId, Guid tileId)
     {
-        await RemoveLink(id);
+        var tile = await GetTileEntity(userId, tileId);
+        if (tile == null) throw new NullReferenceException();
+        await RemoveLink(tile);
+        dbContext.Tiles.Remove(tile);
         return await dbContext.SaveChangesAsync() > 0;
     }
 
@@ -80,15 +91,13 @@ public class TileAccess(PostgresDbContext dbContext) : ITileAccess
     ///
     /// WARNING: Does not save changes
     /// </summary>
-    /// <param name="tileId"></param>
+    /// <param name="tile">The tile which needs to be removed from the linked list</param>
     /// <returns></returns>
-    private async Task<bool> RemoveLink(Guid tileId)
+    private async Task<bool> RemoveLink(TileEntity tile)
     {
-        var tile = await dbContext.Tiles.FirstOrDefaultAsync(t => t.Id == tileId);
-        var previousTile = await dbContext.Tiles.FirstOrDefaultAsync(t => t.NextTileId == tileId);
+        var previousTile = await dbContext.Tiles.FirstOrDefaultAsync(t => t.NextTileId == tile.Id);
         // previousTile may be null if tile is first in linked list
         if (previousTile == null) return true;
-        if (tile == null) return false;
         previousTile.NextTileId = tile.NextTileId;
         return true;
     }

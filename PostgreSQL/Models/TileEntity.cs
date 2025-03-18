@@ -33,7 +33,7 @@ public class TileEntity
     {
         try
         {
-            return new TileModel(Id, JsonDocument.Parse(Attributes), NextTileId, UserId);
+            return new TileModel(Id, JsonDocument.Parse(Attributes), NextTileId);
         }
         catch (Exception e)
         {

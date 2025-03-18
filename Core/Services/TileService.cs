@@ -11,14 +11,22 @@ public class TileService(ITileAccess tileAccess)
     
     public async Task<TileModel?> AddTile(int userId, JsonDocument attributeJson)
     {
-        // TODO : Validate the content
-        if (attributeJson?.ToString() is null) throw new InvalidTileAttributesException();
-        await Console.Out.WriteLineAsync(JsonSerializer.Serialize(attributeJson));
-        var tileId = await tileAccess.AddTile(userId, JsonSerializer.Serialize(attributeJson));
-        return await tileAccess.GetTile(tileId);
+        string attributeJsonString = ValidateTile(attributeJson);
+        return await tileAccess.AddTile(userId, attributeJsonString);
     }
     
-    public Task<bool> UpdateTile(Guid id, string attributeJson) => tileAccess.UpdateTile(id, attributeJson);
-    public Task<bool> MoveTile(Guid tileCId, Guid tileAId) => tileAccess.MoveTile(tileCId, tileAId);
-    public Task<bool> DeleteTile(Guid id) => tileAccess.DeleteTile(id);
+    public async Task<bool> UpdateTile(int userId, Guid id, JsonDocument attributeJson) {
+        string attributeJsonString = ValidateTile(attributeJson);
+        return await tileAccess.UpdateTile(userId, id, attributeJsonString);
+    }
+    public Task<bool> MoveTile(int userId, Guid tileCId, Guid tileAId) => tileAccess.MoveTile(userId, tileCId, tileAId);
+    public Task<bool> DeleteTile(int userId, Guid id) => tileAccess.DeleteTile(userId, id);
+
+    public string ValidateTile(JsonDocument attributeJson)
+    {
+        // TODO : Validate the content
+        if (attributeJson?.ToString() is null) throw new InvalidTileAttributesException();
+        return JsonSerializer.Serialize(attributeJson);
+    }
+    
 }
