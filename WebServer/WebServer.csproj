@@ -31,6 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ApiServer\ApiServer.csproj" />
       <ProjectReference Include="..\Core\Core.csproj" />
       <ProjectReference Include="..\PostgreSQL\PostgreSQL.csproj" />
     </ItemGroup>
@@ -106,7 +107,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="Views\Auth\Index.cshtml" />
+      <AdditionalFiles Include="Views\Token\Index.cshtml" />
     </ItemGroup>
 
 </Project>

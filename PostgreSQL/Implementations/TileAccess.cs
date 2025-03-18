@@ -3,7 +3,7 @@ using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL.Models;
 
-namespace PostgreSQL.Access;
+namespace PostgreSQL.Implementations;
 
 public class TileAccess(PostgresDbContext dbContext) : ITileAccess
 {
@@ -17,6 +17,11 @@ public class TileAccess(PostgresDbContext dbContext) : ITileAccess
                 .Select(t => t!)
                 .ToList()
         );
+    }
+
+    public async Task<TileModel?> GetTile(Guid tileId) {
+        var tileEntity = await dbContext.Tiles.FirstOrDefaultAsync(t => t.Id == tileId);
+        return tileEntity?.GetModel();
     }
 
     public async Task<Guid> AddTile(int userId, string attributeJson)

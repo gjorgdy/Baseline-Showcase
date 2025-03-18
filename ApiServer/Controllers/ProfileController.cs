@@ -1,11 +1,15 @@
-﻿using Core.Models;
+﻿using System.Security.Claims;
+using System.Text.Json;
+using Core.Models;
 using Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace ApiServer.Controllers;
 
 [Route("users/{id:int}/profile")]
-public class ProfileController(TileService tileService, UserService userService) : AAuthController
+public class ProfileController(TileService tileService, UserService userService) : Controller
 {
 
     [HttpGet("")]
@@ -24,10 +28,18 @@ public class ProfileController(TileService tileService, UserService userService)
     }
 
     [HttpPut("")]
-    public IActionResult PutTile(int id, [FromBody] int? targetIndex, [FromBody] object? tile)
+    [Authorize]
+    public async Task<IActionResult> PutTile(int id, [FromBody] JsonDocument tileAttributes)
     {
-        int? userId = ValidateToken();
-        return Ok(userId ?? -1);
+        var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+        int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        await Console.Out.WriteLineAsync($"User's id: {userId}");
+        // If client tries to modify another profile
+        if (userId != id) return Forbid();
+        // Update tile
+        var tile = await tileService.AddTile(id, tileAttributes);
+        if (tile != null) return Ok(tile);
+        else return NotFound();
     }
 
     [HttpPatch("{index:int}")]
