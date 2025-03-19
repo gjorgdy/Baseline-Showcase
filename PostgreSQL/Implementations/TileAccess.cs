@@ -32,14 +32,17 @@ public class TileAccess(PostgresDbContext dbContext) : ITileAccess
         return tileEntity?.GetModel();
     }
 
-    public async Task<TileModel?> AddTile(int userId, string attributeJson)
+    public async Task<TileModel?> AddTile(int userId, string type, string attributeJson)
     {
         // Add new tile
         var tile = dbContext.Tiles.Add(new TileEntity
         {
             UserId = userId,
+            Type = type,
             Attributes = attributeJson,
             NextTile = null,
+            Width = 1,
+            Height = 1
         });
         // Link previous tile
         var previousTile = await dbContext.Tiles.FirstOrDefaultAsync(t => 

@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Core.Exceptions;
 using Core.Models;
 using Core.Services;
@@ -29,7 +30,7 @@ public class ProfileController(TileService tileService, UserService userService)
 
     [HttpPut("")]
     [Authorize]
-    public async Task<IActionResult> PutTile(int id, [FromBody] JsonDocument tileAttributes)
+    public async Task<IActionResult> PutTile(int id, [FromBody] JsonDocument body)
     {
         var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
         int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -37,14 +38,15 @@ public class ProfileController(TileService tileService, UserService userService)
         // If client tries to modify another profile
         if (userId != id) return Forbid();
         // Add tile
-        var tile = await tileService.AddTile(id, tileAttributes);
+        var json = body.Deserialize<JsonNode>();
+        var tile = await tileService.AddTile(id, json!["type"]!.GetValue<string>(), json["attributes"]!);
         if (tile != null) return Ok(tile);
         else return NotFound();
     }
 
     [HttpPatch("{tileId:Guid}")]
     [Authorize]
-    public async Task<IActionResult> PatchTile(int id, Guid tileId, [FromBody] JsonDocument tileAttributes)
+    public async Task<IActionResult> PatchTile(int id, Guid tileId, [FromBody] JsonDocument body)
     {
         var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
         int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -54,7 +56,8 @@ public class ProfileController(TileService tileService, UserService userService)
         bool status;
         try
         {
-            status = await tileService.UpdateTile(id, tileId, tileAttributes);
+            var json = body.Deserialize<JsonNode>();
+            status = await tileService.UpdateTile(id, tileId, json?["attributes"]!);
         }
         catch (InvalidTileAttributesException e)
         {

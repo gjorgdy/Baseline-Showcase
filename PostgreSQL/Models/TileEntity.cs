@@ -14,8 +14,14 @@ public class TileEntity
     [DefaultValue("uuid_generate_v4()")]
     public Guid Id { get; set; }
     
+    public required string Type { get; set; }
+    
     [Column(TypeName = "jsonb")]
     public required string Attributes { get; set; }
+    
+    public required int Width { get; set; }
+    
+    public required int Height { get; set; }
     
     // Linked list reference
     [ForeignKey("Id")]
@@ -33,7 +39,7 @@ public class TileEntity
     {
         try
         {
-            return new TileModel(Id, JsonDocument.Parse(Attributes), NextTileId);
+            return new TileModel(Id, Type, JsonDocument.Parse(Attributes), NextTileId, Width, Height);
         }
         catch (Exception e)
         {
