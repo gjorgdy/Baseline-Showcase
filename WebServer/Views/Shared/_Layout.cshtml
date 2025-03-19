@@ -17,8 +17,8 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/grid.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/tile.css" asp-append-version="true"/>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 </head>
 <body>
 <header>
@@ -28,9 +28,6 @@
             <li class="nav-item">
                 <a asp-area="" asp-controller="home" asp-action="index">Home</a>
             </li>
-            @* <li class="nav-item"> *@
-            @*     <a asp-area="" asp-controller="home" asp-action="privacy">Privacy</a> *@
-            @* </li> *@
             <li class="nav-item">
                 <a asp-area="" asp-controller="users" asp-action="search">Search</a>
             </li>

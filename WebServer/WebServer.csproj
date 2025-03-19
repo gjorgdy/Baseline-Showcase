@@ -88,7 +88,6 @@
 
     <ItemGroup>
       <Folder Include="bin\Debug\net8.0\" />
-      <Folder Include="wwwroot\js\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -104,10 +103,6 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Views\Token\Index.cshtml" />
     </ItemGroup>
 
 </Project>

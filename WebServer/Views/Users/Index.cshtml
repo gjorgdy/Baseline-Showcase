@@ -5,63 +5,17 @@
     ViewData["Title"] = "Jordy Reins";
 }
 
-<div id="grids">
-@foreach (var gridViewModel in Model.Grids)
-{
-    <div class="grid">
-    @foreach (var tileViewModel in gridViewModel.Tiles)
-    {
-        <div class="tile" style="
-            grid-row: span @tileViewModel.Height;
-            grid-column: span @tileViewModel.Width;
-            height: calc(@tileViewModel.Height * var(--cell-size));
-            width: calc(@tileViewModel.Width * var(--cell-size));
-            aspect-ratio: @tileViewModel.Width/@tileViewModel.Height;
-        ">
-        @switch (tileViewModel)
-        {
-            case PictureTileViewModel tile:
-                @await Html.PartialAsync("_PictureTilePartial", tile)
-                break;
-            case NameTileViewModel tile:
-                @await Html.PartialAsync("_NameTilePartial", tile)
-                break;
-            case ParagraphTileViewModel tile:
-                @await Html.PartialAsync("_ParagraphTilePartial", tile)
-                break;
-            case ExperiencesTileViewModel tile:
-                @await Html.PartialAsync("_ExperiencesTilePartial", tile)
-                break;
-            case SkillsTileViewModel tile:
-                @await Html.PartialAsync("_SkillsTilePartial", tile)
-                break;
-            case SpotifyTileViewModel tile:
-                @await Html.PartialAsync("_SpotifyTilePartial", tile)
-                break;
-        }
-        </div>
-    }
+<script src="/js/fetch.js"></script>
+<script src="/js/grid.js"></script>
+<script src="/js/templates.js"></script>
+
+<script id="user-template" type="text/x-handlebars-template">    
+    <div class="content display-name">
+        <h1>{{displayName}}</h1>
     </div>
-}
-</div>
-
-<script>
-    window.addEventListener("resize", setupGrid);
-    window.addEventListener("DOMContentLoaded", setupGrid);
-
-    function setupGrid() {
-        const cellSize = 200; // Example of cell size in pixels
-        const container = document.getElementById("container")
-        let columnCount = Math.floor(container.offsetWidth / cellSize);
-        columnCount = columnCount - (columnCount % 3);
-        container.style.setProperty('--column-count', columnCount);
-
-        const grids = document.getElementById("grids")
-        for (let grid of grids.children) {
-            new Sortable(grid, {
-                group: "grids",
-                animation: 150
-            });
-        }
-    }
 </script>
+
+<div id="grids">
+     <div id="grid" class="grid">
+     </div>
+</div>
