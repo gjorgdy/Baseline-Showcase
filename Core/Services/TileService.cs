@@ -20,7 +20,7 @@ public class TileService(ITileAccess tileAccess)
         string attributeJsonString = ValidateTile(attributeJson);
         return await tileAccess.UpdateTile(userId, id, attributeJsonString);
     }
-    public Task<bool> MoveTile(int userId, Guid tileCId, Guid tileAId) => tileAccess.MoveTile(userId, tileCId, tileAId);
+    public Task<bool> ReorderTiles(int userId, List<Guid> tileIds) => tileAccess.ReorderTiles(userId, tileIds);
     public Task<bool> DeleteTile(int userId, Guid id) => tileAccess.DeleteTile(userId, id);
 
     public string ValidateTile(JsonNode attributeJson)

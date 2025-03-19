@@ -67,16 +67,14 @@ public class TileAccess(PostgresDbContext dbContext) : ITileAccess
     /// Move tile 'C' between tile 'A' and 'B'
     /// </summary>
     /// <returns></returns>
-    public async Task<bool> MoveTile(int userId, Guid tileCId, Guid tileAId)
+    public async Task<bool> ReorderTiles(int userId, List<Guid> tileIds)
     {
-        // Tile C after A, before B
-        var tileA = await GetTileEntity(userId, tileAId);
-        var tileC = await GetTileEntity(userId, tileCId);
-        if (tileA == null || tileC == null) throw new NullReferenceException();
-        await RemoveLink(tileC);
-        var tileBId = tileA.NextTileId;
-        tileA.NextTileId = tileCId;
-        tileC.NextTileId = tileBId;
+        for (int i = 0; i < tileIds.Count; i++)
+        {
+            var tileA = await GetTileEntity(userId, tileIds[i]);
+            if (tileA == null) throw new NullReferenceException();
+            tileA.NextTileId = i == tileIds.Count - 1 ? null : tileIds[i + 1];
+        }
         return await dbContext.SaveChangesAsync() > 0;
     }
 

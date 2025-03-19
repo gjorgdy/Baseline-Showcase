@@ -12,12 +12,13 @@ public class AuthController(UserService userService) : Controller
 {
     public IActionResult Index()
     {
-        string? token = HttpContext.Request.Cookies["JwtToken"];
-        if (token == null) return View();
-        var tokenHandler = new JwtTokenHandler();
-        string userId = tokenHandler.ValidateToken(token);
-        TempData["UserId"] = userId;
-        return RedirectToAction("LoggedIn", "Auth");
+        return View();
+        // string? token = HttpContext.Request.Cookies["JwtToken"];
+        // if (token == null) return View();
+        // var tokenHandler = new JwtTokenHandler();
+        // string userId = tokenHandler.ValidateToken(token);
+        // TempData["UserId"] = userId;
+        // return RedirectToAction("LoggedIn", "Auth");
     }
 
     [Route("logged-in")]
