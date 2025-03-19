@@ -23,8 +23,31 @@ function setupGrid() {
             }
         },
 
-        onEnd: function (evt) {
-            console.log(`Swapped around tile ${evt.item.id}`)
+        onEnd: async function (evt) {
+            let tileOrder = []
+
+            console.log(evt.to);
+            
+            for (let key in evt.to.children) {
+                let tile = evt.to.children[key];
+                if (tile.id != null && tile.id !== "") {
+                    tileOrder.push(tile.id);
+                    console.log(tile.id);
+                }
+            }
+            
+            await fetch("https://localhost:7052/users/2/profile", {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    order: tileOrder,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include"
+            })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
         }
     });
 }

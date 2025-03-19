@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using ApiServer.Model;
 using Core.Exceptions;
 using Core.Models;
 using Core.Services;
@@ -18,35 +19,29 @@ public class ProfileController(TileService tileService, UserService userService)
     {
         var user = await userService.GetUser(id);
         var tiles = await tileService.GetTiles(id);
-        if (user != null)
-            return Ok(
-                new ProfileModel(
-                    user,
-                    tiles
-                )
-            );
+        if (user != null) return Ok(new ProfileModel(user, tiles));
         return NotFound();
     }
 
     [HttpPut("")]
     [Authorize]
-    public async Task<IActionResult> PutTile(int id, [FromBody] JsonDocument body)
+    public async Task<IActionResult> PutTile(int id, [FromBody] PutTileForm body)
     {
         var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
         int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-        await Console.Out.WriteLineAsync($"User's id: {userId}");
         // If client tries to modify another profile
         if (userId != id) return Forbid();
         // Add tile
-        var json = body.Deserialize<JsonNode>();
-        var tile = await tileService.AddTile(id, json!["type"]!.GetValue<string>(), json["attributes"]!);
+        var json = body.Attributes.Deserialize<JsonNode>();
+        if (json is null) return BadRequest();
+        var tile = await tileService.AddTile(id, body.Type, json);
         if (tile != null) return Ok(tile);
         else return NotFound();
     }
 
     [HttpPatch("{tileId:Guid}")]
     [Authorize]
-    public async Task<IActionResult> PatchTile(int id, Guid tileId, [FromBody] JsonDocument body)
+    public async Task<IActionResult> PatchTile(int id, Guid tileId, [FromBody] PatchTileForm body)
     {
         var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
         int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -56,8 +51,9 @@ public class ProfileController(TileService tileService, UserService userService)
         bool status;
         try
         {
-            var json = body.Deserialize<JsonNode>();
-            status = await tileService.UpdateTile(id, tileId, json?["attributes"]!);
+            var json = body.Attributes.Deserialize<JsonNode>();
+            if (json is null) return BadRequest();
+            status = await tileService.UpdateTile(id, tileId, json);
         }
         catch (InvalidTileAttributesException e)
         {
@@ -86,8 +82,8 @@ public class ProfileController(TileService tileService, UserService userService)
         return status ? Ok() : NotFound();
     }
 
-    [HttpPatch("{tileId:Guid}/move/{afterTileId:Guid}")]
-    public async Task<IActionResult> PatchTile(int id, Guid tileId, Guid afterTileId)
+    [HttpPatch("")]
+    public async Task<IActionResult> ReorderTile(int id, [FromBody] ReorderForm order)
     {
         var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
         int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -97,7 +93,11 @@ public class ProfileController(TileService tileService, UserService userService)
         bool status;
         try
         {
-            status = await tileService.MoveTile(id, tileId, afterTileId);
+            foreach (var guid in order.Order)
+            {
+                await Console.Out.WriteLineAsync(guid.ToString());
+            }
+            status = await tileService.ReorderTiles(id, order.Order);
         }
         catch (InvalidTileAttributesException e)
         {
