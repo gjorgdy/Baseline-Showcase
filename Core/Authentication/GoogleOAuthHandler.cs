@@ -1,9 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using Core.Models;
 
 namespace Core.Authentication;
 
-public class GoogleOAuthHandler(OAuthPlatform platform)
-    : AbstractOAuthHandler(platform, "https://oauth2.googleapis.com/token")
+public class GoogleOAuthHandler(OAuthPlatformModel platformModel)
+    : AbstractOAuthHandler(platformModel, "https://oauth2.googleapis.com/token")
 {
 
     public override Task<string?> GetUserId()

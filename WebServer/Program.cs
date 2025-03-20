@@ -1,7 +1,9 @@
 using Core;
+using Core.Authentication;
 using Core.Interfaces;
 using Core.Services;
 using dotenv.net;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL;
 using PostgreSQL.Access;
@@ -42,6 +44,9 @@ builder.Services.AddScoped<RoleService>();
 // connection
 builder.Services.AddScoped<IConnectionAccess, ConnectionAccess>();
 builder.Services.AddScoped<ConnectionService>();
+
+builder.Services.AddAuthentication("JwtCookieScheme")
+    .AddScheme<AuthenticationSchemeOptions, JwtTokenAuthenticationHandler>("JwtCookieScheme", null);
 
 var app = builder.Build();
 

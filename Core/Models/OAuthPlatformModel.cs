@@ -1,8 +1,9 @@
-﻿using dotenv.net;
+﻿using Core.Authentication;
+using dotenv.net;
 
-namespace Core.Authentication;
+namespace Core.Models;
 
-public class OAuthPlatform
+public class OAuthPlatformModel
 {
     
     public string PlatformName { get; init; }
@@ -11,9 +12,9 @@ public class OAuthPlatform
     public string ClientId { get; init; }
     public string ClientSecret { get; init; }
 
-    private readonly Func<OAuthPlatform, AbstractOAuthHandler> _handlerFactory; 
+    private readonly Func<OAuthPlatformModel, AbstractOAuthHandler> _handlerFactory; 
     
-    private OAuthPlatform(string platformName, string redirectUri, string oAuthUrl, string clientId, string clientSecret, Func<OAuthPlatform, AbstractOAuthHandler> handlerFactory)
+    private OAuthPlatformModel(string platformName, string redirectUri, string oAuthUrl, string clientId, string clientSecret, Func<OAuthPlatformModel, AbstractOAuthHandler> handlerFactory)
     {
         PlatformName = platformName;
         RedirectUri = redirectUri;
@@ -23,11 +24,11 @@ public class OAuthPlatform
         _handlerFactory = handlerFactory;
     }
 
-    public static OAuthPlatform Load(string platformId, Func<OAuthPlatform, AbstractOAuthHandler> handlerFactory)
+    public static OAuthPlatformModel Load(string platformId, Func<OAuthPlatformModel, AbstractOAuthHandler> handlerFactory)
     {
         DotEnv.Load();
         var env = DotEnv.Read();
-        return new OAuthPlatform(
+        return new OAuthPlatformModel(
             env[platformId + "_PLATFORM_NAME"],
             env["OAUTH_REDIRECT_ROOT"] + env[platformId + "_REDIRECT_PATH"],
             env[platformId + "_OAUTH_URL"],

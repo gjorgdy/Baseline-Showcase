@@ -1,12 +1,13 @@
 ﻿using System.Runtime.Serialization;
 using Core.Authentication;
 using Core.Interfaces;
+using Core.Models;
 
 namespace Core;
 
 public class Baseline
 {
-    private static readonly Dictionary<string, OAuthPlatform> OAuthPlatforms = [];
+    private static readonly Dictionary<string, OAuthPlatformModel> OAuthPlatforms = [];
     public static HttpClient HttpClient { get; private set; } = null!;
     // public static IDataAccess DataAccess { get; private set; } = null!;
 
@@ -14,13 +15,13 @@ public class Baseline
     {
         HttpClient = new HttpClient();
         OAuthPlatforms.Add(
-            "google", OAuthPlatform.Load("GOOGLE", p => new GoogleOAuthHandler(p))
+            "google", OAuthPlatformModel.Load("GOOGLE", p => new GoogleOAuthHandler(p))
         );
         OAuthPlatforms.Add(
-            "discord", OAuthPlatform.Load("DISCORD", p => new DiscordOAuthHandler(p))
+            "discord", OAuthPlatformModel.Load("DISCORD", p => new DiscordOAuthHandler(p))
         );
     }
     
-    public static OAuthPlatform GetOAuthPlatform(string platform) => OAuthPlatforms[platform];
-    public static IEnumerable<OAuthPlatform> GetAllOAuthPlatforms() => OAuthPlatforms.Values;
+    public static OAuthPlatformModel GetOAuthPlatform(string platform) => OAuthPlatforms[platform];
+    public static IEnumerable<OAuthPlatformModel> GetAllOAuthPlatforms() => OAuthPlatforms.Values;
 }

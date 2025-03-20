@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Core.Models;
+using Newtonsoft.Json;
 
 namespace Core.Authentication;
 
-public abstract class AbstractOAuthHandler(OAuthPlatform platform, string tokenEndpoint)
+public abstract class AbstractOAuthHandler(OAuthPlatformModel platformModel, string tokenEndpoint)
 {
 
     protected Dictionary<string, string> Tokens = new();
@@ -11,11 +12,11 @@ public abstract class AbstractOAuthHandler(OAuthPlatform platform, string tokenE
     {
         var content = new FormUrlEncodedContent(new Dictionary<string, string>
         {
-            { "client_id", platform.ClientId },
-            { "client_secret", platform.ClientSecret },
+            { "client_id", platformModel.ClientId },
+            { "client_secret", platformModel.ClientSecret },
             { "grant_type", "authorization_code" },
             { "code", authorizationCode },
-            { "redirect_uri", platform.RedirectUri }
+            { "redirect_uri", platformModel.RedirectUri }
         });
 
         var response = await Baseline.HttpClient.PostAsync(tokenEndpoint, content);

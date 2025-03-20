@@ -113,8 +113,7 @@ body {
   bottom: 1.15rem;
   right: 1rem;
   font-size: 0.75rem;
-
-  background: black;
+  
   color: darkgray;
 }
 
@@ -131,7 +130,6 @@ body {
   border-top: 1px white dashed;
   
   z-index: 2;
-  background-color: black;
 }
 
 .navbar a {
@@ -254,7 +252,6 @@ body {
     height: calc(100dvh - 2rem);
     padding-right: 1rem;
     padding-bottom: 0;
-    background: black;
 
     display: flex;
     flex-direction: column;

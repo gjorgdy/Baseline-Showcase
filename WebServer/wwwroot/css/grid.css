@@ -14,7 +14,6 @@
 .grid {
     display: grid;
     box-sizing: content-box;
-    grid-auto-flow: dense;
     transition: width 0.5s, grid-template-columns 0.5s step-end;
     width: calc(var(--cell-size) * var(--column-count));
     grid-template-columns: repeat(var(--column-count), var(--cell-size));
@@ -34,8 +33,6 @@
     width: calc(100% - 1.5rem);
     height: calc(100% - 1.5rem);
     color: white;
-    /*background: #000000FF;*/
-    /*overflow: hidden;*/
 }
 
 .tile.highlight {
@@ -45,8 +42,4 @@
 .experiences .experience {
     display: block;
     margin-top: 1rem;
-}
-
-.tile h4 {
-    color: #2c3034;
 }

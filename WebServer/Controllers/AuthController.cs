@@ -8,28 +8,14 @@ using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 namespace WebServer.Controllers;
 
 [Route("auth")]
-public class AuthController(UserService userService) : Controller
+public class AuthController(UserService userService) : AbstractController
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
-        // string? token = HttpContext.Request.Cookies["JwtToken"];
-        // if (token == null) return View();
-        // var tokenHandler = new JwtTokenHandler();
-        // string userId = tokenHandler.ValidateToken(token);
-        // TempData["UserId"] = userId;
-        // return RedirectToAction("LoggedIn", "Auth");
-    }
-
-    [Route("logged-in")]
-    public IActionResult LoggedIn()
-    {
-        TempData.TryGetValue("UserId", out object? value);
-        return View(new AuthStatusModel(
-            value == null 
-                ? "Token is no longer valid."
-                : $"Logged in as user {value}"
-        ));
+        int? userId = await ReadUserId();
+        if (userId == null) return View();
+        TempData["UserId"] = userId;
+        return RedirectToAction("Index", "Users", new { id = userId });
     }
     
     [Route("success")]
@@ -37,6 +23,7 @@ public class AuthController(UserService userService) : Controller
     {
         TempData.TryGetValue("UserId", out object? value);
         var tokenHandler = new JwtTokenHandler();
+        // Store token in cookie
         HttpContext.Response.Cookies.Append(
             "JwtToken", 
             tokenHandler.CreateToken(value?.ToString()!), 
@@ -49,7 +36,7 @@ public class AuthController(UserService userService) : Controller
                 SameSite = SameSiteMode.Strict
             }
         );
-        
+        //
         return View(new AuthStatusModel(
             value?.ToString() ?? "No Auth request was received"
         ));

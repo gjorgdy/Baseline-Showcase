@@ -17,9 +17,10 @@ public class ProfileController(TileService tileService, UserService userService)
     [HttpGet("")]
     public async Task<IActionResult> GetProfile(int id)
     {
+        int? loggedInUserId = await ReadUserId();
         var user = await userService.GetUser(id);
         var tiles = await tileService.GetTiles(id);
-        if (user != null) return Ok(new ProfileModel(user, tiles));
+        if (user != null) return Ok(new ProfileModel(user, tiles, loggedInUserId == user.Id));
         return NotFound();
     }
 
@@ -27,8 +28,7 @@ public class ProfileController(TileService tileService, UserService userService)
     [Authorize]
     public async Task<IActionResult> PutTile(int id, [FromBody] PutTileForm body)
     {
-        var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
-        int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        int? userId = await ReadUserId();
         // If client tries to modify another profile
         if (userId != id) return Forbid();
         // Add tile
@@ -43,8 +43,7 @@ public class ProfileController(TileService tileService, UserService userService)
     [Authorize]
     public async Task<IActionResult> PatchTile(int id, Guid tileId, [FromBody] PatchTileForm body)
     {
-        var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
-        int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        int? userId = await ReadUserId();
         // If client tries to modify another profile
         if (userId != id) return Forbid();
         // Update tile
@@ -66,8 +65,7 @@ public class ProfileController(TileService tileService, UserService userService)
     [Authorize]
     public async Task<IActionResult> PatchTile(int id, Guid tileId)
     {
-        var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
-        int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        int? userId = await ReadUserId();
         // If client tries to modify another profile
         if (userId != id) return Forbid();
         // Update tile
@@ -87,8 +85,7 @@ public class ProfileController(TileService tileService, UserService userService)
     [Authorize]
     public async Task<IActionResult> ReorderTile(int id, [FromBody] ReorderForm order)
     {
-        var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
-        int userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        int? userId = await ReadUserId();
         // If client tries to modify another profile
         if (userId != id) return Forbid();
         // Update tile
@@ -102,6 +99,22 @@ public class ProfileController(TileService tileService, UserService userService)
             return BadRequest(e.Message);
         }
         return status ? Ok(order.Order) : NotFound();
+    }
+
+    private async Task<int?> ReadUserId()
+    {
+        int userId;
+        try
+        {
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+            userId = int.Parse(claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+        }
+        catch (Exception e)
+        {
+            await Console.Out.WriteLineAsync(e.Message);
+            return null;
+        }
+        return userId;
     }
 
 }

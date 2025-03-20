@@ -1,17 +1,19 @@
 ﻿using System.Security.Claims;
 using System.Text.Encodings.Web;
-using Core.Authentication;
 using Core.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace ApiServer;
+namespace Core.Authentication;
 
-public class MyAuthenticationHandler(
+public class JwtTokenAuthenticationHandler(
     IOptionsMonitor<AuthenticationSchemeOptions> options,
     ILoggerFactory logger,
-    UrlEncoder encoder, UserService userService)
-    : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
+    UrlEncoder encoder,
+    ISystemClock clock,
+    UserService userService)
+    : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder, clock)
 {
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {

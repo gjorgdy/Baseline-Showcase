@@ -15,9 +15,7 @@ public class UsersController : Controller
     [Route("users/{id:int}")]
     public IActionResult Index(int id)
     {
-        return id == 0
-            ? View(HardcodedData.ProfileJordy)
-            : RedirectToAction("search");
+        return View();
     }
     
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

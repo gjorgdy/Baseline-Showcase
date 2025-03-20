@@ -1,4 +1,5 @@
 using ApiServer;
+using Core.Authentication;
 using Core.Interfaces;
 using Core.Services;
 using dotenv.net;
@@ -41,7 +42,7 @@ builder.Services.AddScoped<IConnectionAccess, ConnectionAccess>();
 builder.Services.AddScoped<ConnectionService>();
 
 builder.Services.AddAuthentication("JwtCookieScheme")
-    .AddScheme<AuthenticationSchemeOptions, MyAuthenticationHandler>("JwtCookieScheme", null);
+    .AddScheme<AuthenticationSchemeOptions, JwtTokenAuthenticationHandler>("JwtCookieScheme", null);
 
 var app = builder.Build();
 

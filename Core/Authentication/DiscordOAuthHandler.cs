@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Core.Models;
+using Newtonsoft.Json;
 
 namespace Core.Authentication;
 
-public class DiscordOAuthHandler(OAuthPlatform platform)
-    : AbstractOAuthHandler(platform, "https://discord.com/api/oauth2/token")
+public class DiscordOAuthHandler(OAuthPlatformModel platformModel)
+    : AbstractOAuthHandler(platformModel, "https://discord.com/api/oauth2/token")
 {
 
     public override async Task<string?> GetUserId()
