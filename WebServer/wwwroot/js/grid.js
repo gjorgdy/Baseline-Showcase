@@ -6,7 +6,6 @@ window.addEventListener("resize", event => {
 window.addEventListener("DOMContentLoaded", async event => {
     calculateColumnCount();
     await fillGrid();
-    setupSortable();
 });
 
 function getUrlUserId() {
@@ -64,6 +63,8 @@ async function fillGrid() {
     let container = document.getElementById("grids");
     container.innerHTML = "";
     container.appendChild(grid);
+// Setup sortable dragging if relevant 
+    setupSortable();
 }
 
 function appendTileContent(tileElement, tile) {

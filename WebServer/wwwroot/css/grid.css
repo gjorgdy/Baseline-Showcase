@@ -13,6 +13,7 @@
 #grid {
     display: grid;
     box-sizing: content-box;
+    padding: 1px;
     transition: width 0.5s, grid-template-columns 0.5s step-end;
     width: calc(var(--cell-size) * var(--column-count));
     grid-template-columns: repeat(var(--column-count), var(--cell-size));
@@ -45,6 +46,7 @@
     align-items: center;
     justify-content: center;
     transition: transform 0.5s ease;
+    overflow: auto;
 }
 
 .modal > .modal-content,
