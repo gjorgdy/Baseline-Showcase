@@ -1,5 +1,7 @@
 ﻿const baseUri = "https://localhost:7052/";
 
+window.tiles = {};
+
 async function getProfile(id) {
     try {
         const response = await fetch(baseUri + `users/${id}/profile`, {
@@ -8,7 +10,12 @@ async function getProfile(id) {
         if (!response.ok) {
             return {error: response.statusText};
         }
-        return response.json();
+        const profile = await response.json();
+        for (let i in profile.tiles) {
+            const tile = profile.tiles[i];
+            window.tiles[tile.id] = tile;
+        }
+        return profile;
     } catch (error) {
         console.error(error.message);
         return {};
@@ -16,6 +23,9 @@ async function getProfile(id) {
 }
 
 async function getTile(id, tileId) {
+    if (window.tiles.hasOwnProperty(tileId)) {
+        return window.tiles[tileId];
+    }
     try {
         const response = await fetch(baseUri + `users/${id}/profile/${tileId}`, {
             "credentials": "include",
