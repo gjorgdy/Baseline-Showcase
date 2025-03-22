@@ -1,9 +1,7 @@
-﻿using Core.Enums;
-
-namespace Core.Models;
+﻿namespace Core.Models;
 
 public record UserModel(
-    int Id, 
-    string DisplayName, 
-    string ProfilePicture
+    int Id,
+    string DisplayName,
+    string ProfilePictureUri
 );

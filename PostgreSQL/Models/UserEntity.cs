@@ -23,15 +23,16 @@ public class UserEntity
     
     public required ICollection<ConnectionEntity> Connections { get; init; }
     
-    public UserModel? GetModel()
+    public UserData? GetDataModel()
     {
         bool validDn = TryParse<DisplayNamePlatform>(DisplayName, true, out var displayName);
         bool validPfp = TryParse<ProfilePicturePlatform>(ProfilePicture, true, out var profilePicture);
         if (validDn && validPfp)
-            return new UserModel(
+            return new UserData(
                 Id,
-                DisplayName,   // TODO: Get from API
-                ProfilePicture // TODO: Get from API
+                DisplayName,
+                ProfilePicture,
+                Connections.Select(c => c.GetModel()).ToList()
             );
         return null;
     }

@@ -1,6 +1,6 @@
 ﻿namespace Core.Exceptions;
 
-public class InvalidTileAttributesException : ArgumentException
+public class InvalidTileAttributesException(string message) : TileException(message)
 {
     
 }

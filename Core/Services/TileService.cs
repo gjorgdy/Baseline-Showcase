@@ -1,33 +1,20 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
-using Core.Exceptions;
-using Core.Interfaces;
+﻿using Core.Interfaces;
 using Core.Models;
 
 namespace Core.Services;
 
 public class TileService(ITileAccess tileAccess)
 {
+    public Task<TileModel?> GetTile(int userId, Guid tileId) => tileAccess.GetTile(userId, tileId);
     public Task<List<TileModel>> GetTiles(int userId) => tileAccess.GetTiles(userId);
-    
-    public async Task<TileModel?> AddTile(int userId, string type, JsonNode attributeJson)
-    {
-        string attributeJsonString = ValidateTile(attributeJson);
-        return await tileAccess.AddTile(userId, type, attributeJsonString);
+    public async Task<TileModel?> AddTile(int userId, TileContentModel tileContentModel) {
+        tileContentModel.ValidateOrThrow();
+        return await tileAccess.AddTile(userId, tileContentModel);
     }
-    
-    public async Task<bool> UpdateTile(int userId, Guid id, JsonNode attributeJson) {
-        string attributeJsonString = ValidateTile(attributeJson);
-        return await tileAccess.UpdateTile(userId, id, attributeJsonString);
+    public async Task<bool> UpdateTile(int userId, Guid tileId, TileContentModel tileContentModel) {
+        tileContentModel.ValidateOrThrow();
+        return await tileAccess.UpdateTile(userId, tileId, tileContentModel);
     }
     public Task<bool> ReorderTiles(int userId, List<Guid> tileIds) => tileAccess.ReorderTiles(userId, tileIds);
     public Task<bool> DeleteTile(int userId, Guid id) => tileAccess.DeleteTile(userId, id);
-
-    public string ValidateTile(JsonNode attributeJson)
-    {
-        // TODO : Validate the content
-        if (attributeJson?.ToString() is null) throw new InvalidTileAttributesException();
-        return JsonSerializer.Serialize(attributeJson);
-    }
-    
 }

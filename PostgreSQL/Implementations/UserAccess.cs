@@ -7,7 +7,12 @@ namespace PostgreSQL.Implementations;
 
 public class UserAccess(PostgresDbContext dbContext) : IUserAccess
 {
-    private async Task<UserEntity?> GetUserEntity(int id) => await dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+    private async Task<UserEntity?> GetUserEntity(int id)
+    {
+        return await dbContext.Users
+            .Include(u => u.Connections)
+            .FirstOrDefaultAsync(u => u.Id == id);
+    }
     private async Task<UserEntity?> GetUserEntity(string platform, string platformId)
     {
         var conn = await dbContext.Connections
@@ -16,16 +21,16 @@ public class UserAccess(PostgresDbContext dbContext) : IUserAccess
         return conn?.User;
     }
     
-    public async Task<UserModel?> GetUser(int id)
+    public async Task<UserData?> GetUser(int id)
     {
         var userEntity = await GetUserEntity(id);
-        return userEntity?.GetModel();
+        return userEntity?.GetDataModel();
     }
     
-    public async Task<UserModel?> GetUser(string platform, string platformId)
+    public async Task<UserData?> GetUser(string platform, string platformId)
     {
         var userEntity = await GetUserEntity(platform, platformId);
-        return userEntity?.GetModel();
+        return userEntity?.GetDataModel();
     }
 
     public async Task<bool> SetDisplayName(int id, string displayName)

@@ -1,6 +1,4 @@
 ﻿using System.Security.Claims;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using ApiServer.Model;
 using Core.Exceptions;
 using Core.Models;
@@ -24,25 +22,40 @@ public class ProfileController(TileService tileService, UserService userService)
         return NotFound();
     }
 
+    [HttpGet("{tileId:Guid}")]
+    public async Task<IActionResult> GetTile(int id, Guid tileId)
+    {
+        var tile = await tileService.GetTile(id, tileId);
+        return tile == null ? NotFound() : Ok(tile);
+    }
+
     [HttpPut("")]
     [Authorize]
-    public async Task<IActionResult> PutTile(int id, [FromBody] PutTileForm body)
+    public async Task<IActionResult> PutTile(int id, [FromBody] TileContentModel? body)
     {
+        if (body == null) return BadRequest("Tile sizes cannot be null");
         int? userId = await ReadUserId();
         // If client tries to modify another profile
         if (userId != id) return Forbid();
         // Add tile
-        var json = body.Attributes.Deserialize<JsonNode>();
-        if (json is null) return BadRequest();
-        var tile = await tileService.AddTile(id, body.Type, json);
+        TileModel? tile;
+        try
+        {
+            tile = await tileService.AddTile(id, body);
+        }
+        catch (TileException e)
+        {
+            return BadRequest(e.Message);
+        }
         if (tile != null) return Ok(tile);
-        else return NotFound();
+        return BadRequest();
     }
 
     [HttpPatch("{tileId:Guid}")]
     [Authorize]
-    public async Task<IActionResult> PatchTile(int id, Guid tileId, [FromBody] PatchTileForm body)
+    public async Task<IActionResult> PatchTile(int id, Guid tileId, [FromBody] TileContentModel? body)
     {
+        if (body == null) return BadRequest("Tile sizes cannot be null");
         int? userId = await ReadUserId();
         // If client tries to modify another profile
         if (userId != id) return Forbid();
@@ -50,11 +63,9 @@ public class ProfileController(TileService tileService, UserService userService)
         bool status;
         try
         {
-            var json = body.Attributes.Deserialize<JsonNode>();
-            if (json is null) return BadRequest();
-            status = await tileService.UpdateTile(id, tileId, json);
+            status = await tileService.UpdateTile(id, tileId, body);
         }
-        catch (InvalidTileAttributesException e)
+        catch (TileException e)
         {
             return BadRequest(e.Message);
         }
@@ -63,7 +74,7 @@ public class ProfileController(TileService tileService, UserService userService)
 
     [HttpDelete("{tileId:Guid}")]
     [Authorize]
-    public async Task<IActionResult> PatchTile(int id, Guid tileId)
+    public async Task<IActionResult> DeleteTile(int id, Guid tileId)
     {
         int? userId = await ReadUserId();
         // If client tries to modify another profile

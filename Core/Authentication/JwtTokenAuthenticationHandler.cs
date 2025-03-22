@@ -42,7 +42,7 @@ public class JwtTokenAuthenticationHandler(
         {
             new Claim(ClaimTypes.NameIdentifier, idString),
             new Claim(ClaimTypes.Name, user.DisplayName),
-            new Claim(ClaimTypes.Uri, user.ProfilePicture),
+            new Claim(ClaimTypes.Uri, user.ProfilePictureUri),
         };
 
         var identity = new ClaimsIdentity(claims, Scheme.Name);

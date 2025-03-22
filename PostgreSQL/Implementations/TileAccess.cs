@@ -1,4 +1,5 @@
-﻿using Core.Interfaces;
+﻿using System.Text.Json;
+using Core.Interfaces;
 using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL.Models;
@@ -32,17 +33,19 @@ public class TileAccess(PostgresDbContext dbContext) : ITileAccess
         return tileEntity?.GetModel();
     }
 
-    public async Task<TileModel?> AddTile(int userId, string type, string attributeJson)
+    public async Task<TileModel?> AddTile(int userId, TileContentModel tileModel)
     {
         // Add new tile
         var tile = dbContext.Tiles.Add(new TileEntity
         {
             UserId = userId,
-            Type = type,
-            Attributes = attributeJson,
+            Type = tileModel.Type,
+            Attributes = JsonSerializer.Serialize(
+                tileModel.Attributes
+            ),
             NextTile = null,
-            Width = 1,
-            Height = 1
+            Width = tileModel.Width,
+            Height = tileModel.Height,
         });
         // Link previous tile
         var previousTile = await dbContext.Tiles.FirstOrDefaultAsync(t => 
@@ -55,11 +58,16 @@ public class TileAccess(PostgresDbContext dbContext) : ITileAccess
         return tile.Entity.GetModel();
     }
 
-    public async Task<bool> UpdateTile(int userId, Guid id, string attributeJson)
+    public async Task<bool> UpdateTile(int userId, Guid tileId, TileContentModel tileModel)
     {
-        var tile = await dbContext.Tiles.FirstOrDefaultAsync(t => t.Id == id);
+        var tile = await dbContext.Tiles.FirstOrDefaultAsync(t => t.Id == tileId);
         if (tile == null) throw new NullReferenceException();
-        tile.Attributes = attributeJson;
+        tile.Type = tileModel.Type;
+        tile.Attributes = JsonSerializer.Serialize(
+            tileModel.Attributes
+        );
+        tile.Width = tileModel.Width;
+        tile.Height = tileModel.Height;
         return await dbContext.SaveChangesAsync() > 0;
     }
 

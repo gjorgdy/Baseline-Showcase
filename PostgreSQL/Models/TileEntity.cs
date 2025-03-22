@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
+using System.Text.Json.Nodes;
+using Core.Exceptions;
 using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,12 +40,19 @@ public class TileEntity
     {
         try
         {
-            return new TileModel(Id, Type, JsonDocument.Parse(Attributes), NextTileId, Width, Height);
+            var json = JsonDocument.Parse(Attributes);
+            return new TileModel(
+                Id, 
+                Type, 
+                json, 
+                Width, 
+                Height, 
+                NextTileId
+            );
         }
         catch (Exception e)
         {
-            // TODO: Log
-            return null;
+            throw new TileException("'Tile could not be parsed");
         }
     }
 }
