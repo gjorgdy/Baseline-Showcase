@@ -8,9 +8,19 @@
         .join('\n');
 });
 
-function openModal(event, tile) {
+async function openModal(event, tileId) {
     let modal = document.getElementById("tileModal"); 
     modal.style.display = "block";
+    modal.innerHTML = Handlebars.templates.TileForm({ "id": tileId }).replace(/[\u200B-\u200D\uFEFF]/g, "");
+    let tile
+    if (tileId !== undefined) {
+        tile = await getTile(getUrlUserId(), tileId);
+    }
+    renderTileForm(event, tile);
+}
+
+function renderTileForm(event, tile) {
+    let modal = document.getElementById("tileModal");
     modal.innerHTML = Handlebars.templates.TileForm(tile).replace(/[\u200B-\u200D\uFEFF]/g, "");
     // Change form when type is changed
     document.getElementById("type").onchange = (ev) => {

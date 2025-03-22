@@ -119,8 +119,7 @@ function createTile(width, height, id=null, draggable=true) {
         editButton.role = "button";
         tileElement.appendChild(editButton);
         editButton.onclick = async (ev) => {
-            let tile = await getTile(getUrlUserId(), id);
-            openModal(ev, tile);
+            openModal(ev, id);
         };
     }
     return tileElement;
