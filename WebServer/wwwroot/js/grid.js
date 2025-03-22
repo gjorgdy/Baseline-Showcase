@@ -18,6 +18,8 @@ function getUrlUserId() {
 async function fillGrid() {
     let json = await getProfile(getUrlUserId());
     window.editMode = json["isLoggedInUser"];
+
+    document.title = json["user"]["displayName"] + " - Baseline";
     
     const grid = document.createElement("div");
     grid.id = "grid";

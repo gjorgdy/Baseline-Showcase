@@ -18,6 +18,26 @@
     grid-template-columns: repeat(var(--column-count), var(--cell-size));
 }
 
+#loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+    position: absolute;
+    left: 50dvw;
+    top: 50dvh;
+    transform: translate(-50%, -50%);
+}
+
+#loading img {
+    height: 5rem;
+}
+
+#loading h1 {
+    font-size: 2rem;
+}
+
 .modal,
 .tile {
     position: relative;
