@@ -1,0 +1,19 @@
+﻿<label for="title">Title</label>
+<input type="text" name="title" id="title" maxlength="32" value="{{title}}">
+
+<h3>Skills</h3>
+<span class="amount">
+  <button type="button" id="addSkill">+</button>
+  <button type="button" id="removeSkill">-</button>
+</span>
+
+{{#each skills}}
+  <span class="name">
+    <label for="name-{{@index}}">Name</label>
+    <input type="text" name="name-{{@index}}" id="name-{{@index}}" maxlength="8" value="{{name}}">
+  </span>
+  <span class="percentage">
+    <label for="percentage-{{@index}}">Percentage</label>
+    <input type="number" name="percentage-{{@index}}" id="percentage-{{@index}}" min="0" max="100" value="{{percentage}}">
+  </span>
+{{/each}}

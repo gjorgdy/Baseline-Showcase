@@ -1,0 +1,14 @@
+﻿@using WebServer.Models
+@model AuthStatusModel
+
+@{
+    ViewData["Title"] = "Success";
+}
+
+<content class="center">
+    <div>
+        <h1>@ViewData["Title"]</h1>
+        <p>You are still logged in</p>
+        <p>@Model.Status</p>
+    </div>
+</content>

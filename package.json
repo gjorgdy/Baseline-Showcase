@@ -1,0 +1,23 @@
+{
+  "name": "baseline",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gjorgdy/Baseline-Showcase.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gjorgdy/Baseline-Showcase/issues"
+  },
+  "homepage": "https://github.com/gjorgdy/Baseline-Showcase#readme",
+  "description": "",
+  "dependencies": {
+    "vue": "^3.5.13"
+  }
+}

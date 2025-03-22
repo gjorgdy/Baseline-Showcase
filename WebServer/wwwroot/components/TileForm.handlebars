@@ -1,0 +1,28 @@
+﻿<div class="modal-content">
+  {{#if type}}
+    <h2>Edit tile</h2>
+  {{else}}
+    <h2>Create tile</h2>
+  {{/if}}
+  <input name="tileId" type="hidden" id="tileId" value="{{id}}" />
+  <form id="tileDefaults">
+    <label for="type">Type</label>
+    <select name="type" id="type">
+      {{#select type}}
+        <option value="none" selected disabled hidden>Select a type</option>
+        <option value="paragraph">Paragraph</option>
+        <option value="skills">Skills</option>
+      {{/select}}
+    </select>
+    <label for="width">Width</label>
+    <input type="number" name="width" id="width" min="1" max="3" value="{{width}}" />
+    <label for="height">Height</label>
+    <input type="number" name="height" id="height" min="1" max="3" value="{{height}}" />
+  </form>
+  <form id="tileAttributes"></form>
+  <span id="modalError"></span>
+  <span class="buttons">
+     <button type="submit" id="submitModal">Submit</button>
+     <button type="button" id="closeModal" onclick="closeModal()">Close</button>
+  </span>
+</div>

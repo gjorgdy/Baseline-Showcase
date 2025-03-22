@@ -1,0 +1,11 @@
+﻿<h2>{{title}}</h2>
+  {{#each skills}}
+    <text>
+      <div class="skill progress-bar" role="progressbar" aria-valuenow="{{this.percentage}}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress" style="width: {{this.percentage}}%;">
+        </div>
+        <span class="name">{{this.name}}</span>
+        <span class="percentage">{{this.percentage}}%</span>
+      </div>
+    </text>
+  {{/each}}
