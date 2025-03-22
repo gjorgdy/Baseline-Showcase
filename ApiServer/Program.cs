@@ -1,4 +1,5 @@
 using ApiServer;
+using Core;
 using Core.Authentication;
 using Core.Interfaces;
 using Core.Services;
@@ -8,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using PostgreSQL;
 using PostgreSQL.Access;
 using PostgreSQL.Implementations;
+
+_ = new Baseline();
 
 var builder = WebApplication.CreateBuilder(args);
 
