@@ -16,6 +16,8 @@ function getUrlUserId() {
 }
 
 async function fillGrid() {
+    document.title = "Loading... - Baseline";
+    
     let json = await getProfile(getUrlUserId());
     window.editMode = json["isLoggedInUser"];
 
