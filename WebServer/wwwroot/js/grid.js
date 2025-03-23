@@ -17,7 +17,7 @@ function getUrlUserId() {
 async function fillGrid() {
     document.title = "Loading... - Baseline";
     
-    let json = await getProfile(getUrlUserId());
+    let json = await getProfileRequest(getUrlUserId());
     window.editMode = json["isLoggedInUser"];
 
     document.title = json["user"]["displayName"] + " - Baseline";
@@ -28,7 +28,7 @@ async function fillGrid() {
     
 // Profile information
     // Profile Picture
-    let pfpTile = createTile(1, 1, null, false);
+    let pfpTile = createTileBase(1, 1, null, false);
     pfpTile = appendContent(
         pfpTile,
         `<img src="${json["user"]["profilePictureUri"]}" alt="Profile Picture">`,
@@ -36,7 +36,7 @@ async function fillGrid() {
     )
     grid.appendChild(pfpTile);
     // Username
-    let usernameTile = createTile(2, 1, null, false);
+    let usernameTile = createTileBase(2, 1, null, false);
     usernameTile = appendContent(
         usernameTile,
         `<div class="center"><h1>${json["user"]["displayName"]}</h1></div>`,
@@ -45,13 +45,13 @@ async function fillGrid() {
     grid.appendChild(usernameTile);
 // Profile Content
     orderedTiles.forEach((tile) => {
-        let tileElement = createTile(tile["width"], tile["height"], tile["id"]);
+        let tileElement = createTileBase(tile["width"], tile["height"], tile["id"]);
         tileElement = appendTileContent(tileElement, tile);
         grid.appendChild(tileElement);
     })
 // Add tile
     if (window.editMode) {
-        let tileElement = createTile(1, 1, null, false);
+        let tileElement = createTileBase(1, 1, null, false);
         tileElement = appendContent(
             tileElement,
             `<button onclick="openModal()"><div class="button">＋</div></button>`,
@@ -65,6 +65,14 @@ async function fillGrid() {
     container.appendChild(grid);
 // Setup sortable dragging if relevant 
     setupSortable();
+}
+
+function updateTileContent(tileId) {
+    let tileData = getTileRequest(getUrlUserId(), tileId);
+    let tileElement = document.getElementById(tileId);
+    tileElement.innerHTML = "";
+    tileElement = updateTileBase(tileElement, tileData["width"], tileData["height"], tileData["id"])
+    tileElement = appendTileContent(tileElement, tileData);
 }
 
 function appendTileContent(tileElement, tile) {
@@ -99,8 +107,12 @@ function orderTiles(tiles) {
     return sortedTiles;
 }
 
-function createTile(width, height, id=null, draggable=true) {
+function createTileBase(width, height, id=null, draggable=true) {
     let tileElement = document.createElement("div");
+    return updateTileBase(tileElement, width, height, id, draggable)
+}
+
+function updateTileBase(tileElement, width, height, id=null, draggable=true) {
     if (!draggable) {
         tileElement.classList.add("not-draggable");
     }
@@ -120,7 +132,7 @@ function createTile(width, height, id=null, draggable=true) {
         editButton.role = "button";
         tileElement.appendChild(editButton);
         editButton.onclick = async (ev) => {
-            openModal(ev, id);
+            await openModal(ev, id);
         };
     }
     return tileElement;
@@ -170,7 +182,7 @@ function setupSortable() {
                 }
             }
 
-            await reorderTiles(getUrlUserId(), tileOrder);
+            await reorderTilesRequest(getUrlUserId(), tileOrder);
         }
     });
 }

@@ -1,9 +1,10 @@
 ﻿using Core.Interfaces;
 using Core.Models;
+using Core.Platforms;
 
 namespace Core.Services;
 
-public class UserService(IUserAccess userAccess)
+public class UserService(DiscordApiHandler discordApi, IUserAccess userAccess)
 {
     public async Task<UserModel?> GetUser(int id)
     {
@@ -17,7 +18,7 @@ public class UserService(IUserAccess userAccess)
         return user != null ? await ToUserModel(user) : null;
     }
 
-    public async Task<UserModel> NewUser(string platform, string platformId)
+    public async Task<UserModel?> NewUser(string platform, string platformId)
     {
         var userData = await userAccess.NewUser(platform, platformId);
         return await ToUserModel(userData);
@@ -27,10 +28,10 @@ public class UserService(IUserAccess userAccess)
 
     public Task<bool> SetProfilePicture(int id, string picture) => userAccess.SetProfilePicture(id, picture);
 
-    private static async Task<UserModel> ToUserModel(UserData? userData)
+    private async Task<UserModel?> ToUserModel(UserData? userData)
     {
         string? displayName = null;
-        if (userData.DisplayNamePlatform == "discord")
+        if (userData?.DisplayNamePlatform == "discord")
         {
             string? discordId = userData.Connections
                 .Where(connection => connection.Platform == "discord")
@@ -38,11 +39,11 @@ public class UserService(IUserAccess userAccess)
                 .FirstOrDefault();
             if (discordId != null)
             {
-                displayName = await Baseline.DiscordApi.GetDisplayName(discordId);
+                displayName = await discordApi.GetDisplayName(discordId);
             }
         }
         string? profilePictureUri = null;
-        if (userData.ProfilePicturePlatform == "discord")
+        if (userData?.ProfilePicturePlatform == "discord")
         {
             string? discordId = userData.Connections
                 .Where(connection => connection.Platform == "discord")
@@ -50,18 +51,20 @@ public class UserService(IUserAccess userAccess)
                 .FirstOrDefault();
             if (discordId != null)
             {
-                profilePictureUri = await Baseline.DiscordApi.GetProfilePictureUri(discordId);
+                profilePictureUri = await discordApi.GetProfilePictureUri(discordId);
             }
         }
 
         await Console.Out.WriteLineAsync(displayName);
         await Console.Out.WriteLineAsync(profilePictureUri);
         
-        return new UserModel(
-            userData.Id,
-            displayName ?? "{Not Found}",
-            profilePictureUri ?? "/resources/default_pfp.jpg"
-        );
+        if (userData != null)
+            return new UserModel(
+                userData.Id,
+                displayName ?? "{Not Found}",
+                profilePictureUri ?? "/resources/default_pfp.jpg"
+            );
+        else return null;
     }
     
 }

@@ -1,16 +1,16 @@
-﻿using System.Security.Claims;
-using ApiServer.Model;
+﻿using ApiServer.Model;
 using Core.Authentication;
 using Core.Exceptions;
 using Core.Models;
 using Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ApiServer.Controllers;
 
 [Route("users/{id:int}/profile")]
-public class ProfileController(TileService tileService, UserService userService) : Controller
+public class ProfileController(TileService tileService, UserService userService, IHubContext<ProfileHub> signalR) : Controller
 {
 
     [HttpGet("")]
@@ -19,8 +19,8 @@ public class ProfileController(TileService tileService, UserService userService)
         int? loggedInUserId = JwtTokenHandler.GetUserId(User);
         var user = await userService.GetUser(id);
         var tiles = await tileService.GetTiles(id);
-        if (user != null) return Ok(new ProfileModel(user, tiles, loggedInUserId == user.Id));
-        return NotFound();
+        if (user == null) return NotFound();
+        return Ok(new ProfileModel(user, tiles, loggedInUserId == user.Id));
     }
 
     [HttpGet("{tileId:Guid}")]
@@ -48,8 +48,9 @@ public class ProfileController(TileService tileService, UserService userService)
         {
             return BadRequest(e.Message);
         }
-        if (tile != null) return Ok(tile);
-        return BadRequest();
+        if (tile == null) return NotFound();
+        await signalR.Clients.Group(id.ToString()).SendAsync("AddTile", tile.Id);
+        return Ok(tile);
     }
 
     [HttpPatch("{tileId:Guid}")]
@@ -70,7 +71,9 @@ public class ProfileController(TileService tileService, UserService userService)
         {
             return BadRequest(e.Message);
         }
-        return status ? Ok() : NotFound();
+        if (!status) return NotFound();
+        await signalR.Clients.All.SendAsync("UpdateTile", tileId);
+        return Ok();
     }
 
     [HttpDelete("{tileId:Guid}")]
@@ -90,7 +93,9 @@ public class ProfileController(TileService tileService, UserService userService)
         {
             return BadRequest(e.Message);
         }
-        return status ? Ok() : NotFound();
+        if (!status) return NotFound();
+        await signalR.Clients.Group(id.ToString()).SendAsync("UpdateTile", tileId);
+        return Ok();
     }
 
     [HttpPatch("")]
@@ -110,7 +115,9 @@ public class ProfileController(TileService tileService, UserService userService)
         {
             return BadRequest(e.Message);
         }
-        return status ? Ok(order.Order) : NotFound();
+        if (!status) return NotFound();
+        await signalR.Clients.Group(id.ToString()).SendAsync("ReorderTiles", order);
+        return Ok();
     }
 
 }

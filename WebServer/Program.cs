@@ -1,6 +1,7 @@
 using Core;
 using Core.Authentication;
 using Core.Interfaces;
+using Core.Platforms;
 using Core.Services;
 using dotenv.net;
 using Microsoft.AspNetCore.Authentication;
@@ -47,6 +48,9 @@ builder.Services.AddScoped<ConnectionService>();
 
 builder.Services.AddAuthentication("JwtCookieScheme")
     .AddScheme<AuthenticationSchemeOptions, JwtTokenAuthenticationHandler>("JwtCookieScheme", null);
+
+builder.Services.AddTransient<DiscordApiHandler>();
+builder.Services.AddTransient<HttpClient>();
 
 var app = builder.Build();
 

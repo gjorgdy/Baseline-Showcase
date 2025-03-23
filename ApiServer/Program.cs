@@ -1,7 +1,9 @@
 using ApiServer;
+using ApiServer.Controllers;
 using Core;
 using Core.Authentication;
 using Core.Interfaces;
+using Core.Platforms;
 using Core.Services;
 using dotenv.net;
 using Microsoft.AspNetCore.Authentication;
@@ -47,6 +49,11 @@ builder.Services.AddScoped<ConnectionService>();
 builder.Services.AddAuthentication("JwtCookieScheme")
     .AddScheme<AuthenticationSchemeOptions, JwtTokenAuthenticationHandler>("JwtCookieScheme", null);
 
+builder.Services.AddSignalR();
+
+builder.Services.AddTransient<DiscordApiHandler>();
+builder.Services.AddTransient<HttpClient>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -60,12 +67,14 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors(corsPolicyBuilder => corsPolicyBuilder
-    .AllowAnyHeader()
-    .AllowAnyMethod()
-    .AllowCredentials()
-    .WithOrigins("https://localhost:44350")
+app.UseCors(corsPolicyBuilder => 
+    corsPolicyBuilder.WithOrigins("https://localhost:44350")
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
 );
 
 app.MapControllers();
+app.MapHub<ProfileHub>("/updates");
+
 app.Run();

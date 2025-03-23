@@ -14,7 +14,7 @@ async function openModal(event, tileId) {
     modal.innerHTML = Handlebars.templates.TileForm({ "id": tileId }).replace(/[\u200B-\u200D\uFEFF]/g, "");
     let tile
     if (tileId !== undefined) {
-        tile = await getTile(getUrlUserId(), tileId);
+        tile = await getTileRequest(getUrlUserId(), tileId);
     }
     renderTileForm(event, tile);
 }
@@ -33,9 +33,9 @@ function renderTileForm(event, tile) {
         let userId = getUrlUserId();
         let response;
         if (tile.id === undefined || tile.id === "") {
-            response = await addTile(userId, tile);
+            response = await addTileRequest(userId, tile);
         } else {
-            response = await updateTile(userId, tile);
+            response = await updateTileRequest(userId, tile);
         }
         if (!response.ok) {
             document.getElementById("modalError").innerText = await response.text();

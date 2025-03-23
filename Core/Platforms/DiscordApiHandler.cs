@@ -40,7 +40,7 @@ public class DiscordApiHandler
                 { "Authorization", $"Bot {BotToken}" }
             }
         };
-        var response = await Baseline.HttpClient.SendAsync(request);
+        var response = await HttpClient.SendAsync(request);
         string responseContent = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<DiscordUserModel>(responseContent);
     }

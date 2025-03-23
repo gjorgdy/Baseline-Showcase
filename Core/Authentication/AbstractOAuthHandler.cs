@@ -6,6 +6,8 @@ namespace Core.Authentication;
 public abstract class AbstractOAuthHandler(OAuthPlatformModel platformModel, string tokenEndpoint)
 {
 
+    private readonly HttpClient _httpClient = new HttpClient();
+    
     protected Dictionary<string, string> Tokens = new();
 
     public async Task<bool> RequestTokens(string authorizationCode)
@@ -19,7 +21,7 @@ public abstract class AbstractOAuthHandler(OAuthPlatformModel platformModel, str
             { "redirect_uri", platformModel.RedirectUri }
         });
 
-        var response = await Baseline.HttpClient.PostAsync(tokenEndpoint, content);
+        var response = await _httpClient.PostAsync(tokenEndpoint, content);
 
         if (!response.IsSuccessStatusCode) throw new HttpRequestException(response.ReasonPhrase);
 

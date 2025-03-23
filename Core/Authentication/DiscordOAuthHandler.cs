@@ -7,6 +7,8 @@ public class DiscordOAuthHandler(OAuthPlatformModel platformModel)
     : AbstractOAuthHandler(platformModel, "https://discord.com/api/oauth2/token")
 {
 
+    private readonly HttpClient _httpClient = new HttpClient();
+    
     public override async Task<string?> GetUserId()
     {
         var userData = JsonConvert.DeserializeObject<Dictionary<string, string>>(await GetUserData() ?? "") ?? [];
@@ -25,7 +27,7 @@ public class DiscordOAuthHandler(OAuthPlatformModel platformModel)
             }
         };
 
-        var response = await Baseline.HttpClient.SendAsync(request);
+        var response = await _httpClient.SendAsync(request);
 
         if (!response.IsSuccessStatusCode) return null; // If there is an error, return null
         string userData = await response.Content.ReadAsStringAsync();
