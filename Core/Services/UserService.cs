@@ -54,9 +54,6 @@ public class UserService(DiscordApiHandler discordApi, IUserAccess userAccess)
                 profilePictureUri = await discordApi.GetProfilePictureUri(discordId);
             }
         }
-
-        await Console.Out.WriteLineAsync(displayName);
-        await Console.Out.WriteLineAsync(profilePictureUri);
         
         if (userData != null)
             return new UserModel(
