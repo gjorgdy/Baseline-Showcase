@@ -17,11 +17,14 @@ public class UserEntity
     [StringLength(32)]
     public required string ProfilePicture { get; set; }
     
-    public required ICollection<TileEntity> Tiles { get; init; }
+    [Required]
+    public ICollection<TileEntity> Tiles { get; set; } = [];
+
+    [Required]
+    public ICollection<RoleEntity> Roles { get; set; } = [];
     
-    public required ICollection<RoleEntity> Roles { get; init; }
-    
-    public required ICollection<ConnectionEntity> Connections { get; init; }
+    [Required]
+    public ICollection<ConnectionEntity> Connections { get; set; } = [];
     
     public UserData? GetDataModel()
     {

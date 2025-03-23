@@ -79,6 +79,7 @@ function appendTileContent(tileElement, tile) {
 
 function orderTiles(tiles) {
     let tail = tiles.filter(tile => tile["nextTileId"] === null)[0];
+    if (tail == null) return [];
     let sortedTiles = [tail];
     
     let current = tail;

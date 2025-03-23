@@ -38,8 +38,9 @@ public class AuthController(UserService userService) : Controller
         string? platformId = await handler.GetUserId();
         if (platformId == null) return RedirectToAction("Index", "Auth");
         // Get connected user
-        var user = await userService.GetUser(platform, platformId);
-        if (user == null) return NotFound();
+        var user = 
+            await userService.GetUser(platform, platformId) 
+            ?? await userService.NewUser(platform, platformId);
         // Return token to client and send to profile
         AppendCookie(user.Id);
         return RedirectToAction("Index", "Users", new { id = user.Id });

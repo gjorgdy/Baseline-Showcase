@@ -1,4 +1,5 @@
-﻿using Core.Interfaces;
+﻿using Core.Enums;
+using Core.Interfaces;
 using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL.Models;
@@ -20,7 +21,18 @@ public class UserAccess(PostgresDbContext dbContext) : IUserAccess
             .FirstOrDefaultAsync(c => c.Platform == platform && c.PlatformId == platformId);
         return conn?.User;
     }
-    
+
+    public async Task<UserData?> NewUser(string platform, string platformId)
+    {
+        UserEntity user = new() { DisplayName = platform, ProfilePicture = platform };
+        var userEntry = await dbContext.Users.AddAsync(user);
+        await dbContext.SaveChangesAsync();
+        ConnectionEntity connection = new() { UserId = userEntry.Entity.Id ,Platform = platform, PlatformId = platformId };
+        await dbContext.Connections.AddAsync(connection);
+        await dbContext.SaveChangesAsync();
+        return userEntry.Entity.GetDataModel();
+    }
+
     public async Task<UserData?> GetUser(int id)
     {
         var userEntity = await GetUserEntity(id);

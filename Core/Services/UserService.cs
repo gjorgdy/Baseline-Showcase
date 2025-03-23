@@ -17,11 +17,17 @@ public class UserService(IUserAccess userAccess)
         return user != null ? await ToUserModel(user) : null;
     }
 
+    public async Task<UserModel> NewUser(string platform, string platformId)
+    {
+        var userData = await userAccess.NewUser(platform, platformId);
+        return await ToUserModel(userData);
+    }
+    
     public Task<bool> SetDisplayName(int id, string displayName) => userAccess.SetDisplayName(id, displayName);
 
     public Task<bool> SetProfilePicture(int id, string picture) => userAccess.SetProfilePicture(id, picture);
 
-    private static async Task<UserModel> ToUserModel(UserData userData)
+    private static async Task<UserModel> ToUserModel(UserData? userData)
     {
         string? displayName = null;
         if (userData.DisplayNamePlatform == "discord")
