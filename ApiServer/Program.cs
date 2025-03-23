@@ -51,6 +51,7 @@ builder.Services.AddAuthentication("JwtCookieScheme")
 
 builder.Services.AddSignalR();
 
+builder.Services.AddMemoryCache();
 builder.Services.AddTransient<DiscordApiHandler>();
 builder.Services.AddTransient<HttpClient>();
 

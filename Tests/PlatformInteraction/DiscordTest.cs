@@ -1,4 +1,5 @@
 ﻿using Core.Platforms;
+using Microsoft.Extensions.Caching.Memory;
 using static NUnit.Framework.Assert;
 
 namespace Tests.PlatformInteraction;
@@ -10,7 +11,7 @@ public class DiscordTest
     [SetUp]
     public void Setup()
     {
-        _api = new DiscordApiHandler(new HttpClient());
+        _api = new DiscordApiHandler(new HttpClient(), new MemoryCache(new MemoryCacheOptions()));
     }
 
     [Test]
