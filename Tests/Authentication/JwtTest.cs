@@ -15,9 +15,9 @@ public class Tests
     [Test]
     public void AsymmetryTest()
     {
-        const string input = "ThisIsATestString";
+        const int input = 204040550;
         string token = _handler.CreateToken(input);
-        string output = _handler.ValidateToken(token);
+        int? output = JwtTokenHandler.GetUserId(_handler.ValidateToken(token));
         Assert.That(output, Is.EqualTo(input));
     }
 }

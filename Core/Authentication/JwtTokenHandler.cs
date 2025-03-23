@@ -36,12 +36,12 @@ public class JwtTokenHandler
         return new RsaSecurityKey(rsa);
     }
     
-    public string CreateToken(string userId)
+    public string CreateToken(int userId)
     {
         SecurityToken token = _tokenHandler.CreateJwtSecurityToken(
             issuer: Issuer,
             audience: Audience,
-            subject: new ClaimsIdentity(new List<Claim> { new("user_id", userId) }),
+            subject: new ClaimsIdentity(new List<Claim> { new("user_id", userId.ToString()) }),
             expires: DateTime.UtcNow.AddHours(1),
             signingCredentials: new SigningCredentials(
                 _privateKey,
@@ -51,10 +51,22 @@ public class JwtTokenHandler
         return _tokenHandler.WriteToken(token);
     }
 
-    public string ValidateToken(string token)
+    public ClaimsPrincipal ValidateToken(string token)
     {
-        var principal = _tokenHandler.ValidateToken(token, _tokenValidationParameters, out var validatedToken);
-        return principal.Claims.First(c => c.Type == "user_id").Value;
+        return _tokenHandler.ValidateToken(token, _tokenValidationParameters, out var validatedToken);
+    }
+
+    public static int? GetUserId(ClaimsPrincipal principal)
+    {
+        try
+        {
+            string idString = principal.Claims.First(c => c.Type == "user_id").Value;
+            return int.Parse(idString);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
     
 }

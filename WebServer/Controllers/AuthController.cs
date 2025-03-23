@@ -8,11 +8,11 @@ using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 namespace WebServer.Controllers;
 
 [Route("auth")]
-public class AuthController(UserService userService) : AbstractController
+public class AuthController(UserService userService) : Controller
 {
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
-        int? userId = await ReadUserId();
+        int? userId = JwtTokenHandler.GetUserId(User);
         if (userId == null) return View();
         TempData["UserId"] = userId;
         return RedirectToAction("Index", "Users", new { id = userId });
@@ -22,20 +22,7 @@ public class AuthController(UserService userService) : AbstractController
     public IActionResult Success(string response)
     {
         TempData.TryGetValue("UserId", out object? value);
-        var tokenHandler = new JwtTokenHandler();
         // Store token in cookie
-        HttpContext.Response.Cookies.Append(
-            "JwtToken", 
-            tokenHandler.CreateToken(value?.ToString()!), 
-            new CookieOptions
-            {
-                Expires = DateTimeOffset.UtcNow.AddMinutes(30),
-                HttpOnly = true, // Accessible only by the server
-                IsEssential = true, // Required for GDPR compliance
-                Secure = true,
-                SameSite = SameSiteMode.Strict
-            }
-        );
         //
         return View(new AuthStatusModel(
             value?.ToString() ?? "No Auth request was received"
@@ -47,18 +34,32 @@ public class AuthController(UserService userService) : AbstractController
     {
         var handler = Baseline.GetOAuthPlatform(platform).GetOAuthHandler();
         _ = await handler.RequestTokens(code);
-
+        // Get callback code
         string? platformId = await handler.GetUserId();
-        if (platformId != null)
-        {
-            var user = await userService.GetUser(platform, platformId);
-            TempData["UserId"] = user?.Id;
-        }
-        else
-        {
-            TempData["UserId"] = null;
-        }
-        return RedirectToAction("Success", "Auth");
+        if (platformId == null) return RedirectToAction("Index", "Auth");
+        // Get connected user
+        var user = await userService.GetUser(platform, platformId);
+        if (user == null) return NotFound();
+        // Return token to client and send to profile
+        AppendCookie(user.Id);
+        return RedirectToAction("Index", "Users", new { id = user.Id });
+    }
+    
+    private void AppendCookie(int userId) 
+    {
+        var tokenHandler = new JwtTokenHandler();
+        HttpContext.Response.Cookies.Append(
+            "JwtToken", 
+            tokenHandler.CreateToken(userId), 
+            new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddMinutes(30),
+                HttpOnly = true, // Accessible only by the server
+                IsEssential = true, // Required for GDPR compliance
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            }
+        );
     }
     
 }
