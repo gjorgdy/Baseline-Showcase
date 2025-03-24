@@ -17,6 +17,12 @@ public class UsersController : Controller
     {
         return View();
     }
+
+    [Route("users/notfound")]
+    public IActionResult UserNotFound()
+    {
+        return View();
+    }
     
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

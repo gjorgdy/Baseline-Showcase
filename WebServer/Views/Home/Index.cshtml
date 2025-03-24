@@ -3,21 +3,30 @@
 }
 
 <div class="center">
-    <div>
-        <h1>Welcome to Baseline</h1>
-        <p>Sync your game accounts, build your profile,
-            <br>and showcase your stats — all in one place!</p>
-
-        <a asp-area="" asp-controller="users" asp-action="search">
-            <button type="button" data-dismiss="alert">
-                <span aria-hidden="true">Search Profiles</span>
-            </button>
-        </a>
-
-        <a asp-area="" asp-controller="users" asp-action="index" asp-route-id="2">
-            <button type="button" data-dismiss="alert">
-                <span aria-hidden="true">Developer's Profile</span>
-            </button>
-        </a>
+    <div id="home">
+        <div class="info">
+            <h1>Welcome to Baseline</h1>
+            <p>Sync your game accounts, build your profile,
+                <br>and showcase your stats — all in one place!</p>
+        </div>
+        <div class="navigation">
+            <a asp-area="" asp-controller="users" asp-action="index" asp-route-id="2" class="linkButton">
+                <span aria-hidden="true">Go To Developer's Profile</span>
+            </a>
+            <div>
+                <label for="profileId">Profile Id</label>
+                <input type="number" name="profile-id" id="profileId"/>
+                <button id="gotoProfile" onclick="gotoProfile()">Go</button>
+            </div>
+        </div>
     </div>
 </div>
+
+
+<script>
+    function gotoProfile(ev) {
+        let input = document.getElementById('profileId');
+        let userId = input.value;
+        window.location.href = `/users/${userId}`
+    }
+</script>

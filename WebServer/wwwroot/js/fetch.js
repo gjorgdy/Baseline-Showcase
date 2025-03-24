@@ -17,7 +17,10 @@ async function getProfileRequest(id) {
             "credentials": "include",
         });
         if (!response.ok) {
-            return {error: response.statusText};
+            return {
+                error: response.statusText,
+                status: response.status
+            };
         }
         const profile = await response.json();
         for (let i in profile.tiles) {

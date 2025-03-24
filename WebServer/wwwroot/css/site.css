@@ -1,4 +1,4 @@
-html, button {
+html, button, .linkButton {
   font-size: 11px;
   font-family: "Silkscreen", serif;
   font-weight: 400;
@@ -33,6 +33,7 @@ h3 {
   font-size: 0.9rem;
 }
 
+.linkButton,
 input,
 button,
 textarea,
@@ -43,6 +44,7 @@ select {
   color: white;
   cursor: pointer;
   position: relative;
+  text-decoration: none;
 }
 
 input:focus,
@@ -70,6 +72,17 @@ input.input-validation-error + .error {
   display: block;
   position: absolute;
   content: "error message";
+}
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
 html {
@@ -197,38 +210,31 @@ body {
   margin-top: 1rem;
 }
 
-#mail_input {
-  margin: 0.5rem;
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  grid-template-rows: repeat(6, 1fr) 4fr auto;
+#home .info {
+  margin-bottom: 2rem;
 }
 
-#mail h1 {
-  margin: 1rem;
-}
-
-#mail_input input,
-#mail_input label,
-#mail_input textarea {
-  margin: 0.5rem;
+#home .navigation {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  max-width: 250px;
 }
 
-#mail_input textarea,
-#mail_input #Body {
-  grid-column: span 2;
+#home .navigation label {
+  display: block;
+  margin: 2rem 0 0.5rem 0;
 }
-
-#error_message {
-  color: red;
-  grid-column: span 2;
+#home .navigation a {
+  height: 1rem;
 }
 
 @media (min-width: 600px) {
   html {
     font-size: 16px;
+  }
+  
+  button, .linkButton {
+    font-size: 14px;
   }
 }
 

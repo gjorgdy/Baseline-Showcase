@@ -18,6 +18,12 @@ async function fillGrid() {
     document.title = "Loading... - Baseline";
     
     let json = await getProfileRequest(getUrlUserId());
+    
+    if (json.hasOwnProperty("status") && json.status === 404) {
+        window.location.href = "/users/notfound"
+        return json.statusText;
+    }
+    
     window.editMode = json["isLoggedInUser"];
 
     document.title = json["user"]["displayName"] + " - Baseline";
