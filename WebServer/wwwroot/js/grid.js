@@ -124,6 +124,7 @@ function updateTileBase(tileElement, width, height, id=null, draggable=true) {
     tileElement.style.width = `calc(${width} * var(--cell-size))`;
     tileElement.style.aspectRatio = String(width / height);
     tileElement.style.gridArea = `span ${height} / span ${width}`
+    tileElement.tabIndex = 1;
     if (window.editMode && draggable) {
         let editButton = document.createElement("button");
         editButton.classList.add("edit-tile");

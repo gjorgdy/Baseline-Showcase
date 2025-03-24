@@ -186,6 +186,12 @@ body {
   justify-content: center;
 }
 
+#cookieConsent .content {
+  display: flex;
+  flex-direction: column;
+  max-width: min(350px, 90%);
+}
+
 #cookieConsent .buttons {
   display: block;
   margin-top: 1rem;

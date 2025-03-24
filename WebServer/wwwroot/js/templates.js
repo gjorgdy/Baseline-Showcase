@@ -30,7 +30,7 @@
 
             return "﻿<label for=\"title\">Title</label>\r\n<input type=\"text\" name=\"title\" id=\"title\" maxlength=\"32\" value=\""
                 + alias4(((helper = (helper = lookupProperty(helpers,"title") || (depth0 != null ? lookupProperty(depth0,"title") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data,"loc":{"start":{"line":2,"column":65},"end":{"line":2,"column":74}}}) : helper)))
-                + "\">\r\n<label for=\"paragraph\">Paragraph</label>\r\n<textarea name=\"paragraph\" id=\"paragraph\" cols=\"64\" rows=\"8\" maxlength=\"256\">\r\n  "
+                + "\">\r\n<label for=\"paragraph\">Paragraph</label>\r\n<textarea name=\"paragraph\" id=\"paragraph\" rows=\"8\" maxlength=\"256\">\r\n  "
                 + alias4(((helper = (helper = lookupProperty(helpers,"paragraph") || (depth0 != null ? lookupProperty(depth0,"paragraph") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"paragraph","hash":{},"data":data,"loc":{"start":{"line":5,"column":2},"end":{"line":5,"column":15}}}) : helper)))
                 + "\r\n</textarea>";
         },"useData":true});

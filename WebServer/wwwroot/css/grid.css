@@ -5,6 +5,7 @@
 #grids {
     display: flex;
     max-height: 100%;
+    max-width: 100%;
     align-items: center;
     justify-content: center;
     transition: flex-basis 0.3s ease;
@@ -14,8 +15,6 @@
     display: grid;
     box-sizing: content-box;
     padding: 1px;
-    transition: width 0.5s, grid-template-columns 0.5s step-end;
-    width: calc(var(--cell-size) * var(--column-count));
     grid-template-columns: repeat(var(--column-count), var(--cell-size));
 }
 
@@ -60,7 +59,8 @@
 }
 
 .tile:not(.not-draggable):hover,
-.tile.sortable-chosen {
+.tile.sortable-chosen,
+.tile:not(.not-draggable):focus {
     outline: 1px solid #ffffff0f;
 }
 
@@ -72,7 +72,9 @@
     right: 0.5rem;
 }
 
-.tile:not(.sortable-chosen):hover button.edit-tile {
+.tile:not(.sortable-chosen):hover button.edit-tile,
+.tile:focus button.edit-tile,
+button.edit-tile:focus button.edit-tile{
     opacity: 1;
 }
 
@@ -82,6 +84,8 @@
 }
 
 .modal {
+    min-width: min(350px, 90%);
+    max-width: 90%;
     left: 50dvw;
     top: 50dvh;
     transform: translate(-50%, -50%);
@@ -99,13 +103,13 @@
 .modal .buttons,
 .modal #tileAttributes {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 1rem;
     margin: 1rem 0;
 }
 
 .modal #tileAttributes {
-    grid-template-columns: 1fr 5fr;
+    grid-template-columns: 1fr;
 }
 
 .modal #tileAttributes label {
@@ -128,4 +132,16 @@
 
 .modal #modalError {
     color: red;
+}
+
+@media (min-width: 768px) {
+    .modal #tileDefaults,
+    .modal .buttons,
+    .modal #tileAttributes {
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    .modal #tileAttributes {
+        grid-template-columns: 1fr 5fr;
+    }
 }
