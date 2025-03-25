@@ -14,10 +14,17 @@ public class AuthController(UserService userService) : Controller
     public IActionResult Index()
     {
         return View();
-        // int? userId = JwtTokenHandler.GetUserId(User);
-        // if (userId == null) return View();
-        // TempData["UserId"] = userId;
-        // return RedirectToAction("Index", "Users", new { id = userId });
+    }
+    
+    [Route("logout")]
+    public IActionResult Logout()
+    {
+        HttpContext.Response.Cookies.Delete("JwtToken", new CookieOptions
+        {
+            SameSite = SameSiteMode.None,
+            Secure = true
+        });
+        return RedirectToAction("index", "auth");
     }
     
     [Route("success")]

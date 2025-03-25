@@ -46,8 +46,8 @@ builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<IConnectionAccess, ConnectionAccess>();
 builder.Services.AddScoped<ConnectionService>();
 
-builder.Services.AddAuthentication("JwtCookieScheme")
-    .AddScheme<AuthenticationSchemeOptions, JwtTokenAuthenticationHandler>("JwtCookieScheme", null);
+// builder.Services.AddAuthentication("JwtCookieScheme")
+//     .AddScheme<AuthenticationSchemeOptions, JwtTokenAuthenticationHandler>("JwtCookieScheme", null);
 
 builder.Services.AddTransient<DiscordApiHandler>();
 builder.Services.AddTransient<HttpClient>();

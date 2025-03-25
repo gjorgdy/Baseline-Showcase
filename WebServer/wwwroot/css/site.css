@@ -157,7 +157,7 @@ body {
   text-decoration: none;
 }
 
-.navbar .navbar-nav a {
+.navbar .navbar-nav a.nav-link {
   margin: 0 0 3rem;
   display: inline-block;
 }
@@ -180,6 +180,21 @@ body {
 .navbar-nav .nav-item {
   flex-grow: 1;
   text-align: center;
+  position: relative;
+}
+
+#account-dropdown {
+  display: none;
+  position: absolute;
+  background: black;
+  border: 1px white dashed;
+  width: max-content;
+  bottom: 3rem;
+  left: 6rem;
+}
+
+#account-dropdown li {
+  margin: 1rem;
 }
 
 .navbar-settings {
@@ -280,7 +295,7 @@ body {
     border-right: 1px white dashed;
   }
 
-  .navbar a {
+  .navbar a.nav-link  {
     writing-mode: vertical-rl;
   }
 
@@ -299,6 +314,12 @@ body {
   .navbar-nav .nav-item.account {
     flex-shrink: 0;
     flex-grow: 1;
+  }
+
+  #account-dropdown {
+    top: 0;
+    left: 5rem;
+    bottom: unset;
   }
 
   .footer {

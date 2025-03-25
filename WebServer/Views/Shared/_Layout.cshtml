@@ -27,10 +27,15 @@
     <nav class="navbar">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a asp-area="" asp-controller="home" asp-action="index">Home</a>
+                <a asp-area="" asp-controller="home" asp-action="index" class="nav-link">Home</a>
             </li>
             <li class="nav-item account">
-                <a asp-area="" asp-controller="auth" asp-action="index">My profile</a>
+                <a id="navAccount" asp-area="" asp-controller="auth" asp-action="index" class="nav-link">Login</a>
+                <ul id="account-dropdown">
+                    <li><a id="myProfile" href="/">My profile</a></li>
+                    @* <li><a asp-controller="auth" asp-action="link">Link account</a></li> *@
+                    <li><a asp-controller="auth" asp-action="logout">Log out</a></li>
+                </ul>
             </li>
         </ul>
     </nav>
@@ -52,6 +57,39 @@
 <footer class="footer text-muted">
     &copy; 2025 - Baseline - <a asp-area="" asp-controller="privacy" asp-action="index">Privacy</a>
 </footer>
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        const user = await getLoggedInUserRequest();
+        if (user["userId"] !== undefined) {
+            window.loggedIn = true;
+            const button = document.getElementById("navAccount");
+            button.innerHTML = "Account";
+            button.onclick = (ev) => openAccountPopUp(ev);
+            document.getElementById("myProfile").href = `/users/${user["userId"]}`;
+        }
+        else
+        {
+            window.loggedIn = false;
+            document.getElementById("navAccount").innerHTML = "Login";
+        }
+    });
+
+    function openAccountPopUp(ev) {
+        if (window["loggedIn"]) {
+            ev.preventDefault();
+            document.getElementById("account-dropdown").style.display = "block";
+        }
+    }
+
+    window.addEventListener('click', function(event) {
+        const dropdown = document.getElementById("account-dropdown");
+        const button = document.getElementById("navAccount");
+        if (event.target !== button) {
+            dropdown.style.display = 'none';
+        }
+    });
+
+</script>
 @* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
 @await RenderSectionAsync("Scripts", required: false)
 </body>
