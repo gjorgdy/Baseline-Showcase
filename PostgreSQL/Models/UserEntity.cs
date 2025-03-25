@@ -35,7 +35,8 @@ public class UserEntity
                 Id,
                 DisplayName,
                 ProfilePicture,
-                Connections.Select(c => c.GetModel()).ToList()
+                Connections.Select(c => c.GetModel()).ToList(),
+                Roles.Select(c => c.GetModel()).ToList()
             );
         return null;
     }

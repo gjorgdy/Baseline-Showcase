@@ -7,6 +7,7 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fde00d71_002D6fc4_002D4aaf_002Da009_002De97190d9265c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AsymmetryTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::808A9416-DF78-43E8-890D-4622212794A1::net8.0::Tests.Authentication.Tests.AsymmetryTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::808A9416-DF78-43E8-890D-4622212794A1::net8.0::Tests.Database.UserTest.GetUserRoles&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	</wpf:ResourceDictionary>

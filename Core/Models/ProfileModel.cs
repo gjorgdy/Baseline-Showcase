@@ -1,3 +1,3 @@
 ﻿namespace Core.Models;
 
-public record ProfileModel(UserModel User, IEnumerable<TileModel> Tiles, bool IsLoggedInUser);
+public record ProfileModel(UserModel User, IEnumerable<TileModel> Tiles, bool CanEdit);

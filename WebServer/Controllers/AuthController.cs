@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Authentication;
+using Core.Models;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using WebServer.Models;
@@ -39,19 +40,20 @@ public class AuthController(UserService userService) : Controller
         if (platformId == null) return RedirectToAction("Index", "Auth");
         // Get connected user
         var user = 
-            await userService.GetUser(platform, platformId) 
+            await userService.GetUserData(platform, platformId) 
             ?? await userService.NewUser(platform, platformId);
+        if (user == null) return RedirectToAction("Index", "Auth");
         // Return token to client and send to profile
-        AppendCookie(user.Id);
+        AppendCookie(user);
         return RedirectToAction("Index", "Users", new { id = user.Id });
     }
     
-    private void AppendCookie(int userId) 
+    private void AppendCookie(UserData user) 
     {
         var tokenHandler = new JwtTokenHandler();
         HttpContext.Response.Cookies.Append(
             "JwtToken", 
-            tokenHandler.CreateToken(userId), 
+            tokenHandler.CreateToken(user), 
             new CookieOptions
             {
                 Expires = DateTimeOffset.UtcNow.AddMinutes(30),

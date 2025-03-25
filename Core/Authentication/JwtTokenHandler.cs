@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using Core.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Core.Authentication;
@@ -36,12 +37,20 @@ public class JwtTokenHandler
         return new RsaSecurityKey(rsa);
     }
     
-    public string CreateToken(int userId)
+    public string CreateToken(UserData userData)
     {
+        var claims = new List<Claim> { new("user_id", userData.Id.ToString()) };
+        Console.Out.WriteLine("Roles : ");
+        userData.Roles.ForEach(role => Console.Out.WriteLine(role.DisplayName));
+        
+        claims.AddRange(
+            userData.Roles
+                .Select(role => new Claim(ClaimTypes.Role, role.Id))
+        );
         SecurityToken token = _tokenHandler.CreateJwtSecurityToken(
             issuer: Issuer,
             audience: Audience,
-            subject: new ClaimsIdentity(new List<Claim> { new("user_id", userId.ToString()) }),
+            subject: new ClaimsIdentity(claims),
             expires: DateTime.UtcNow.AddHours(1),
             signingCredentials: new SigningCredentials(
                 _privateKey,
@@ -56,6 +65,25 @@ public class JwtTokenHandler
         return _tokenHandler.ValidateToken(token, _tokenValidationParameters, out var validatedToken);
     }
 
+    public static bool HasAdminRole(ClaimsPrincipal principal)
+    {
+        try
+        {
+            foreach (var claim in principal.Claims)
+            {
+                Console.Out.WriteLine(claim.Type + " : " + claim.Value);
+            }
+            
+            return principal.Claims
+                .Where(claim => claim.Type == ClaimTypes.Role)
+                .Any(role => role.Value == "admin");
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+    
     public static int? GetUserId(ClaimsPrincipal principal)
     {
         try

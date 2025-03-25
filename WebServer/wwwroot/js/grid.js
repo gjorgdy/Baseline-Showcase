@@ -24,7 +24,7 @@ async function fillGrid() {
         return json.statusText;
     }
     
-    window.editMode = json["isLoggedInUser"];
+    window.editMode = json["canEdit"];
 
     document.title = json["user"]["displayName"] + " - Baseline";
     

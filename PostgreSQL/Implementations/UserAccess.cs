@@ -1,5 +1,4 @@
-﻿using Core.Enums;
-using Core.Interfaces;
+﻿using Core.Interfaces;
 using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL.Models;
@@ -11,6 +10,7 @@ public class UserAccess(PostgresDbContext dbContext) : IUserAccess
     private async Task<UserEntity?> GetUserEntity(int id)
     {
         return await dbContext.Users
+            .Include(u => u.Roles)
             .Include(u => u.Connections)
             .FirstOrDefaultAsync(u => u.Id == id);
     }
@@ -18,6 +18,7 @@ public class UserAccess(PostgresDbContext dbContext) : IUserAccess
     {
         var conn = await dbContext.Connections
             .Include(c => c.User)
+            .Include(c => c.User.Roles)
             .FirstOrDefaultAsync(c => c.Platform == platform && c.PlatformId == platformId);
         return conn?.User;
     }

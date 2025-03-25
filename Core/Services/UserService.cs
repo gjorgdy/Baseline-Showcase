@@ -6,22 +6,27 @@ namespace Core.Services;
 
 public class UserService(DiscordApiHandler discordApi, IUserAccess userAccess)
 {
+    public Task<UserData?> GetUserData(int id) =>
+        userAccess.GetUser(id);
+    
     public async Task<UserModel?> GetUser(int id)
     {
         var user = await userAccess.GetUser(id);
         return user != null ? await ToUserModel(user) : null;
     }
 
+    public Task<UserData?> GetUserData(string platform, string platformId) =>
+        userAccess.GetUser(platform, platformId);
+    
     public async Task<UserModel?> GetUser(string platform, string platformId) 
     {
         var user = await userAccess.GetUser(platform, platformId);
         return user != null ? await ToUserModel(user) : null;
     }
 
-    public async Task<UserModel?> NewUser(string platform, string platformId)
+    public async Task<UserData?> NewUser(string platform, string platformId)
     {
-        var userData = await userAccess.NewUser(platform, platformId);
-        return await ToUserModel(userData);
+        return await userAccess.NewUser(platform, platformId);
     }
     
     public Task<bool> SetDisplayName(int id, string displayName) => userAccess.SetDisplayName(id, displayName);

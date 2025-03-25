@@ -1,4 +1,5 @@
 using Core.Authentication;
+using Core.Models;
 
 namespace Tests.Authentication;
 
@@ -16,7 +17,7 @@ public class Tests
     public void AsymmetryTest()
     {
         const int input = 204040550;
-        string token = _handler.CreateToken(input);
+        string token = _handler.CreateToken(new UserData(input, "", "", [], []));
         int? output = JwtTokenHandler.GetUserId(_handler.ValidateToken(token));
         Assert.That(output, Is.EqualTo(input));
     }

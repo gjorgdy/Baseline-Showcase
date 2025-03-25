@@ -17,10 +17,11 @@ public class ProfileController(TileService tileService, UserService userService,
     public async Task<IActionResult> GetProfile(int id)
     {
         int? loggedInUserId = JwtTokenHandler.GetUserId(User);
+        bool isAdmin = JwtTokenHandler.HasAdminRole(User);
         var user = await userService.GetUser(id);
         var tiles = await tileService.GetTiles(id);
         if (user == null) return NotFound();
-        return Ok(new ProfileModel(user, tiles, loggedInUserId == user.Id));
+        return Ok(new ProfileModel(user, tiles, loggedInUserId == user.Id || isAdmin));
     }
 
     [HttpGet("{tileId:Guid}")]
@@ -36,8 +37,9 @@ public class ProfileController(TileService tileService, UserService userService,
     {
         if (body == null) return BadRequest("Tile sizes cannot be null");
         int? userId = JwtTokenHandler.GetUserId(User);
+        bool isAdmin = JwtTokenHandler.HasAdminRole(User);
         // If client tries to modify another profile
-        if (userId != id) return Forbid();
+        if (userId != id && !isAdmin) return Forbid();
         // Add tile
         TileModel? tile;
         try
@@ -59,8 +61,9 @@ public class ProfileController(TileService tileService, UserService userService,
     {
         if (body == null) return BadRequest("Tile sizes cannot be null");
         int? userId = JwtTokenHandler.GetUserId(User);
+        bool isAdmin = JwtTokenHandler.HasAdminRole(User);
         // If client tries to modify another profile
-        if (userId != id) return Forbid();
+        if (userId != id && !isAdmin) return Forbid();
         // Update tile
         bool status;
         try
@@ -81,8 +84,9 @@ public class ProfileController(TileService tileService, UserService userService,
     public async Task<IActionResult> DeleteTile(int id, Guid tileId)
     {
         int? userId = JwtTokenHandler.GetUserId(User);
+        bool isAdmin = JwtTokenHandler.HasAdminRole(User);
         // If client tries to modify another profile
-        if (userId != id) return Forbid();
+        if (userId != id && !isAdmin) return Forbid();
         // Update tile
         bool status;
         try
@@ -103,8 +107,9 @@ public class ProfileController(TileService tileService, UserService userService,
     public async Task<IActionResult> ReorderTile(int id, [FromBody] ReorderForm order)
     {
         int? userId = JwtTokenHandler.GetUserId(User);
+        bool isAdmin = JwtTokenHandler.HasAdminRole(User);
         // If client tries to modify another profile
-        if (userId != id) return Forbid();
+        if (userId != id && !isAdmin) return Forbid();
         // Update tile
         bool status;
         try

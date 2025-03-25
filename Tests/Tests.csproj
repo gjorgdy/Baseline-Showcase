@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Core\Core.csproj" />
+      <ProjectReference Include="..\PostgreSQL\PostgreSQL.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -35,10 +36,6 @@
       <None Update="public_key.pem">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Database\" />
     </ItemGroup>
 
 </Project>
