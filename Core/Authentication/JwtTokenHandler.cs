@@ -40,9 +40,6 @@ public class JwtTokenHandler
     public string CreateToken(UserData userData)
     {
         var claims = new List<Claim> { new("user_id", userData.Id.ToString()) };
-        Console.Out.WriteLine("Roles : ");
-        userData.Roles.ForEach(role => Console.Out.WriteLine(role.DisplayName));
-        
         claims.AddRange(
             userData.Roles
                 .Select(role => new Claim(ClaimTypes.Role, role.Id))
@@ -69,11 +66,6 @@ public class JwtTokenHandler
     {
         try
         {
-            foreach (var claim in principal.Claims)
-            {
-                Console.Out.WriteLine(claim.Type + " : " + claim.Value);
-            }
-            
             return principal.Claims
                 .Where(claim => claim.Type == ClaimTypes.Role)
                 .Any(role => role.Value == "admin");

@@ -10,7 +10,6 @@ public class Baseline
 
     public Baseline()
     {
-        Console.Out.WriteLine("[LOG] Loaded Discord API");
         OAuthPlatforms.Add(
             "google", OAuthPlatformModel.Load("GOOGLE", p => new GoogleOAuthHandler(p))
         );
