@@ -1,4 +1,14 @@
-﻿
+﻿window.tiles = {};
+
+window.onload = async function () {
+    const connection = new signalR.HubConnectionBuilder().withUrl(baseUri + "updates").build();
+    connection.on("AddTile", fillGrid);
+    connection.on("UpdateTile", fillGrid);
+    connection.on("ReorderTiles", fillGrid);
+    await connection.start()
+        .then(() => connection.invoke("joinGroup", getUrlUserId(), ));
+}
+
 window.addEventListener("resize", event => {
     calculateColumnCount();
 });

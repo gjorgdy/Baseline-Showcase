@@ -3,12 +3,23 @@
 }
 
 <div class="center">
-    <div>
+    <div id="login" style="display:none">
         <h1>@ViewData["Title"]</h1>
         <p>Choose a platform to log in with</p>
         @foreach (var platform in Baseline.GetAllOAuthPlatforms())
         {
-            <a href="@platform.OAuthUrl">@platform.PlatformName</a>
+            <a class=linkButton href="@platform.OAuthUrl">@platform.PlatformName</a>
         }
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        const user = await getLoggedInUserRequest();
+        if (user !== undefined && user.status === undefined) {
+            window.location.href = `/users/${user["userId"]}`;
+        } else {
+            document.getElementById("login").style.display = "block";
+        }
+    });
+</script>

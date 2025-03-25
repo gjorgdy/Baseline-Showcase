@@ -13,10 +13,11 @@ public class AuthController(UserService userService) : Controller
 {
     public IActionResult Index()
     {
-        int? userId = JwtTokenHandler.GetUserId(User);
-        if (userId == null) return View();
-        TempData["UserId"] = userId;
-        return RedirectToAction("Index", "Users", new { id = userId });
+        return View();
+        // int? userId = JwtTokenHandler.GetUserId(User);
+        // if (userId == null) return View();
+        // TempData["UserId"] = userId;
+        // return RedirectToAction("Index", "Users", new { id = userId });
     }
     
     [Route("success")]

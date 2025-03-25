@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="~/css/tile.css" asp-append-version="true"/>
     <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.0-preview.2.20167.3/signalr.js"></script>
+    <script src="/js/fetch.js"></script>
 </head>
 <body>
 <header>
@@ -50,7 +52,7 @@
 <footer class="footer text-muted">
     &copy; 2025 - Baseline - <a asp-area="" asp-controller="privacy" asp-action="index">Privacy</a>
 </footer>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

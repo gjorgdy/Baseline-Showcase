@@ -1,14 +1,21 @@
 ﻿const baseUri = "https://localhost:7052/";
 
-window.tiles = {};
-
-window.onload = async function () {
-    const connection = new signalR.HubConnectionBuilder().withUrl(baseUri + "updates").build();
-    connection.on("AddTile", fillGrid);
-    connection.on("UpdateTile", fillGrid);
-    connection.on("ReorderTiles", fillGrid);
-    await connection.start()
-        .then(() => connection.invoke("joinGroup", getUrlUserId(), ));
+async function getLoggedInUserRequest() {
+    try {
+        const response = await fetch(baseUri + `users/me`, {
+            "credentials": "include",
+        });
+        if (!response.ok) {
+            return {
+                error: response.statusText,
+                status: response.status
+            };
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(error.message);
+        return {};
+    }
 }
 
 async function getProfileRequest(id) {
@@ -53,7 +60,7 @@ async function getTileRequest(id, tileId) {
 }
 
 async function addTileRequest(id, tile) {
-    const response = await fetch(baseUri + `users/${id}/profile`, {
+    return await fetch(baseUri + `users/${id}/profile`, {
         method: 'PUT',
         body: JSON.stringify(tile),
         headers: {
@@ -61,25 +68,17 @@ async function addTileRequest(id, tile) {
         },
         credentials: "include"
     });
-    if (response.ok) {
-        await fillGrid();
-    }
-    return response;
 }
 
 async function updateTileRequest(id, tile) {
-    const response = await fetch( baseUri + `users/${id}/profile/${tile.id}`, {
+    return await fetch(baseUri + `users/${id}/profile/${tile.id}`, {
         method: 'PATCH',
         body: JSON.stringify(tile),
         headers: {
             "Content-Type": "application/json",
         },
         credentials: "include"
-    })
-    if (response.ok) {
-        // await fillGrid();
-    }
-    return response;
+    });
 }
 
 async function reorderTilesRequest(id, newOrder) {
