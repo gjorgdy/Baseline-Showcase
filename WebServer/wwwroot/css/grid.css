@@ -86,8 +86,9 @@ button.edit-tile:focus button.edit-tile{
 .modal {
     min-width: min(350px, 90%);
     max-width: 90%;
+    max-height: 90%;
     left: 50dvw;
-    top: 50dvh;
+    top: calc(50dvh - 2rem);
     transform: translate(-50%, -50%);
     position: absolute;
     z-index: 1;
@@ -143,5 +144,10 @@ button.edit-tile:focus button.edit-tile{
 
     .modal #tileAttributes {
         grid-template-columns: 1fr 5fr;
+    }
+
+    .modal {
+        left: calc(50dvw - 2.5rem);
+        top: 50dvh;
     }
 }
