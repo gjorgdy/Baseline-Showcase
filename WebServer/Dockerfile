@@ -1,6 +1,6 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
-WORKDIR /app
+WORKDIR /web
 EXPOSE 8080
 EXPOSE 8081
 
@@ -14,13 +14,13 @@ COPY ["ApiServer/ApiServer.csproj", "ApiServer/"]
 RUN dotnet restore "WebServer/WebServer.csproj"
 COPY . .
 WORKDIR "/src/WebServer"
-RUN dotnet build "WebServer.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "WebServer.csproj" -c $BUILD_CONFIGURATION -o /web/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "WebServer.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "WebServer.csproj" -c $BUILD_CONFIGURATION -o /web/publish /p:UseAppHost=false
 
 FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
+WORKDIR /web
+COPY --from=publish /web/publish .
 ENTRYPOINT ["dotnet", "WebServer.dll"]
