@@ -41,17 +41,9 @@
     </nav>
 </header>
 <div id="container" class="center">
-    @if (showBanner)
-    {
-        <partial name="_CookieConsentPartial" />
-        IgnoreBody();
-    }
-    else
-    {
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    }
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
 </div>
 
 <footer class="footer text-muted">

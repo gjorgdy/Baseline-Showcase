@@ -65,8 +65,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors(corsPolicyBuilder => 
-    corsPolicyBuilder.WithOrigins("https://localhost:44350")
+app.UseCors(corsPolicyBuilder =>
+    corsPolicyBuilder.WithOrigins("https://baseline.hexasis.eu/")
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials()
