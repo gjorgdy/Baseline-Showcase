@@ -22,4 +22,5 @@ RUN dotnet publish "ApiServer.csproj" -c $BUILD_CONFIGURATION -o /api/publish /p
 FROM base AS final
 WORKDIR /api
 COPY --from=publish /api/publish .
+RUN touch .env
 ENTRYPOINT ["dotnet", "ApiServer.dll"]

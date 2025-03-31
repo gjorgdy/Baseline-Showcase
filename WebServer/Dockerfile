@@ -23,4 +23,5 @@ RUN dotnet publish "WebServer.csproj" -c $BUILD_CONFIGURATION -o /web/publish /p
 FROM base AS final
 WORKDIR /web
 COPY --from=publish /web/publish .
+RUN touch .env
 ENTRYPOINT ["dotnet", "WebServer.dll"]
