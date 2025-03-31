@@ -1,0 +1,31 @@
+﻿name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-webserver:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image for Webserver
+        run: |
+          docker build -t gjorgdy/baseline-web:latest ./WebServer
+          docker push gjorgdy/baseline-web:latest
+
+  build-api-server:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image for API Server
+        run: |
+          docker build -t gjorgdy/baseline-api:latest ./WebServer
+          docker push gjorgdy/baseline-api:latest
