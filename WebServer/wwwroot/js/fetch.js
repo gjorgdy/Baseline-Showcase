@@ -1,4 +1,4 @@
-﻿const baseUri = "https://localhost:7052/";
+﻿const baseUri = "https://api.baseline.hexasis.eu/";
 
 async function getLoggedInUserRequest() {
     try {
