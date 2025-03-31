@@ -21,7 +21,7 @@ public static class HardcodedData
                     "Display Name",
                     2,
                     1,
-                    "Jordy"
+                    "Jordy Reins"
                 ),
                 // Description
                 new ParagraphTileViewModel(
