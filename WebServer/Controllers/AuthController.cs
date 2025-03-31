@@ -68,7 +68,7 @@ public class AuthController(UserService userService) : Controller
                 HttpOnly = true, // Accessible only by the server
                 IsEssential = true, // Required for GDPR compliance
                 Secure = true,
-                SameSite = SameSiteMode.Strict
+                SameSite = SameSiteMode.None
             }
         );
     }
