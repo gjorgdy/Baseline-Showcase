@@ -22,8 +22,8 @@ jobs:
 
       - name: Build Docker image for Webserver
         run: |
-          docker build -t gjorgdy/baseline-web:latest -f ./WebServer/Dockerfile .
-          docker push gjorgdy/baseline-web:latest
+          docker build -t ghcr.io/gjorgdy/baseline-web:latest -f ./WebServer/Dockerfile .
+          docker push ghcr.io/gjorgdy/baseline-web:latest
 
   build-api-server:
     runs-on: ubuntu-latest
@@ -41,5 +41,5 @@ jobs:
 
       - name: Build Docker image for API Server
         run: |
-          docker build -t gjorgdy/baseline-api:latest -f ./ApiServer/Dockerfile .
-          docker push gjorgdy/baseline-api:latest
+          docker build -t ghcr.io/gjorgdy/baseline-api:latest -f ./ApiServer/Dockerfile .
+          docker push ghcr.io/gjorgdy/baseline-api:latest
