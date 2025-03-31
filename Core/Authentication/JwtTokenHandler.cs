@@ -18,8 +18,8 @@ public class JwtTokenHandler
 
     public JwtTokenHandler()
     {
-        var publicKey = ReadKeyFromPem("public_key.pem")!;
-        _privateKey = ReadKeyFromPem("private_key.pem");
+        var publicKey = ReadKeyFromPem("keys/public_key.pem")!;
+        _privateKey = ReadKeyFromPem("keys/private_key.pem");
         _tokenHandler = new JwtSecurityTokenHandler();
         _tokenValidationParameters = new TokenValidationParameters
         {
