@@ -51,7 +51,7 @@
 </footer>
 <script>
 
-    window["baseUri"] = @Environment.GetEnvironmentVariable("API_URL")
+    window["baseUri"] = "@Environment.GetEnvironmentVariable("API_URL")"
     
     document.addEventListener('DOMContentLoaded', async function() {
         const user = await getLoggedInUserRequest();
