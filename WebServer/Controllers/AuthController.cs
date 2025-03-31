@@ -65,6 +65,7 @@ public class AuthController(UserService userService) : Controller
             new CookieOptions
             {
                 Expires = DateTimeOffset.UtcNow.AddMinutes(30),
+                Domain = "hexasis.eu",
                 HttpOnly = true, // Accessible only by the server
                 IsEssential = true, // Required for GDPR compliance
                 Secure = true,
