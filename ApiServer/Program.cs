@@ -1,11 +1,9 @@
-using ApiServer;
 using ApiServer.Controllers;
 using Core;
 using Core.Authentication;
 using Core.Interfaces;
 using Core.Platforms;
 using Core.Services;
-using dotenv.net;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL;
@@ -24,8 +22,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContextPool<PostgresDbContext>(opt =>
 {
-    DotEnv.Load();
-    var env = DotEnv.Read();
+    var env = Environment.GetEnvironmentVariables();
     opt.UseNpgsql($"""
                       Host={env["POSTGRES_URI"]};
                       Database={env["POSTGRES_DATABASE"]};
