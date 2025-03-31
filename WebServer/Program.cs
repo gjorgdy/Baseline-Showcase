@@ -66,8 +66,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}");
 
-app.Run();
-
 using var scope = app.Services.CreateScope();
 
 var dbContext = scope.ServiceProvider.GetRequiredService<PostgresDbContext>();
@@ -84,3 +82,5 @@ else
 {
     Console.WriteLine("No pending migrations found.");
 }
+
+app.Run();
