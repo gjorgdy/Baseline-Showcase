@@ -1,8 +1,6 @@
-﻿const baseUri = "https://api.baseline.hexasis.eu/";
-
-async function getLoggedInUserRequest() {
+﻿async function getLoggedInUserRequest() {
     try {
-        const response = await fetch(baseUri + `users/me`, {
+        const response = await fetch(window["baseUri"] + `users/me`, {
             "credentials": "include",
         });
         if (!response.ok) {
@@ -20,7 +18,7 @@ async function getLoggedInUserRequest() {
 
 async function getProfileRequest(id) {
     try {
-        const response = await fetch(baseUri + `users/${id}/profile`, {
+        const response = await fetch(window["baseUri"] + `users/${id}/profile`, {
             "credentials": "include",
         });
         if (!response.ok) {
@@ -46,7 +44,7 @@ async function getTileRequest(id, tileId) {
         return window.tiles[tileId];
     }
     try {
-        const response = await fetch(baseUri + `users/${id}/profile/${tileId}`, {
+        const response = await fetch(window["baseUri"] + `users/${id}/profile/${tileId}`, {
             "credentials": "include",
         });
         if (!response.ok) {
@@ -60,7 +58,7 @@ async function getTileRequest(id, tileId) {
 }
 
 async function addTileRequest(id, tile) {
-    return await fetch(baseUri + `users/${id}/profile`, {
+    return await fetch(window["baseUri"] + `users/${id}/profile`, {
         method: 'PUT',
         body: JSON.stringify(tile),
         headers: {
@@ -71,7 +69,7 @@ async function addTileRequest(id, tile) {
 }
 
 async function updateTileRequest(id, tile) {
-    return await fetch(baseUri + `users/${id}/profile/${tile.id}`, {
+    return await fetch(window["baseUri"] + `users/${id}/profile/${tile.id}`, {
         method: 'PATCH',
         body: JSON.stringify(tile),
         headers: {
@@ -83,7 +81,7 @@ async function updateTileRequest(id, tile) {
 
 async function reorderTilesRequest(id, newOrder) {
     try {
-        await fetch( baseUri + `users/${id}/profile`, {
+        await fetch( window["baseUri"] + `users/${id}/profile`, {
             method: 'PATCH',
             body: JSON.stringify({
                 order: newOrder,

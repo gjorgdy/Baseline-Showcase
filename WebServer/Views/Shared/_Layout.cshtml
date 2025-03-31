@@ -50,6 +50,9 @@
     &copy; 2025 - Baseline - <a asp-area="" asp-controller="privacy" asp-action="index">Privacy</a>
 </footer>
 <script>
+
+    window["baseUri"] = @Environment.GetEnvironmentVariable("API_URL");
+    
     document.addEventListener('DOMContentLoaded', async function() {
         const user = await getLoggedInUserRequest();
         if (user["userId"] !== undefined) {
