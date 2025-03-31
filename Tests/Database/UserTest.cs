@@ -1,5 +1,4 @@
 ﻿using Core.Interfaces;
-using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using PostgreSQL;
 using PostgreSQL.Implementations;
@@ -15,8 +14,7 @@ public class UserTest
     public void Setup()
     {
         var opt = new DbContextOptionsBuilder<PostgresDbContext>();
-        DotEnv.Load();
-        var env = DotEnv.Read();
+        var env = Environment.GetEnvironmentVariables();
         opt.UseNpgsql($"""
               Host={env["POSTGRES_URI"]};
               Database={env["POSTGRES_DATABASE"]};

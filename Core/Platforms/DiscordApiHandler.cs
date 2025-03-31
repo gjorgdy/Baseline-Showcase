@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using dotenv.net;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Core.Platforms;
@@ -16,10 +15,9 @@ public class DiscordApiHandler
     {
         HttpClient = httpClient;
         MemoryCache = memoryCache;
-        
-        DotEnv.Load();
-        var env = DotEnv.Read(); 
-        BotToken = env["DISCORD_BOT_TOKEN"];
+
+        var env = Environment.GetEnvironmentVariables();
+        BotToken = (string)(env["DISCORD_BOT_TOKEN"] ?? "");
     }
     
     public async Task<string?> GetDisplayName(string userId)

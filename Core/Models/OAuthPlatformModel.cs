@@ -1,5 +1,5 @@
-﻿using Core.Authentication;
-using dotenv.net;
+﻿using System.Collections;
+using Core.Authentication;
 
 namespace Core.Models;
 
@@ -26,14 +26,13 @@ public class OAuthPlatformModel
 
     public static OAuthPlatformModel Load(string platformId, Func<OAuthPlatformModel, AbstractOAuthHandler> handlerFactory)
     {
-        DotEnv.Load();
-        var env = DotEnv.Read();
+        var env = (Hashtable) Environment.GetEnvironmentVariables();
         return new OAuthPlatformModel(
-            env[platformId + "_PLATFORM_NAME"],
-            env["OAUTH_REDIRECT_ROOT"] + env[platformId + "_REDIRECT_PATH"],
-            env[platformId + "_OAUTH_URL"],
-            env[platformId + "_CLIENT_ID"],
-            env[platformId + "_CLIENT_SECRET"],
+            (string) env[platformId + "_PLATFORM_NAME"]!,
+            (string) env["OAUTH_REDIRECT_ROOT"]! + env[platformId + "_REDIRECT_PATH"],
+            (string) env[platformId + "_OAUTH_URL"]!,
+            (string) env[platformId + "_CLIENT_ID"]!,
+            (string) env[platformId + "_CLIENT_SECRET"]!,
             handlerFactory
         );
     }
