@@ -15,7 +15,7 @@ jobs:
 
       - name: Build Docker image for Webserver
         run: |
-          docker build -t gjorgdy/baseline-web:latest ./WebServer
+          docker build -t gjorgdy/baseline-web:latest -f ./WebServer/Dockerfile .
           docker push gjorgdy/baseline-web:latest
 
   build-api-server:
@@ -27,5 +27,5 @@ jobs:
 
       - name: Build Docker image for API Server
         run: |
-          docker build -t gjorgdy/baseline-api:latest ./WebServer
+          docker build -t gjorgdy/baseline-api:latest -f ./ApiServer/Dockerfile .
           docker push gjorgdy/baseline-api:latest
