@@ -1,6 +1,6 @@
 describe('Logged In', () => {
   beforeEach(() => {
-    cy.intercept('GET', 'https://localhost:7052/users/me', {
+    cy.intercept('GET', 'https://api.hexasis.eu/users/me', {
       statusCode: 200,
       body: { userId: 0 },
       headers: {
@@ -8,7 +8,7 @@ describe('Logged In', () => {
       },
     }).as('mockedRequest')
     
-    cy.intercept('GET', 'https://localhost:7052/users/0/profile', {
+    cy.intercept('GET', 'https://api.hexasis.eu/users/0/profile', {
       statusCode: 200,
       body: { 
         user: {
@@ -24,7 +24,7 @@ describe('Logged In', () => {
       },
     }).as('mockedRequest')
     
-    cy.visit('https://localhost:44350/')
+    cy.visit('https://baseline.hexasis.eu/')
     // Accept cookies
     cy.get('button').click()
   })

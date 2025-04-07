@@ -1,6 +1,6 @@
 describe('Login', () => {
   beforeEach(() => {
-    cy.visit('https://localhost:44350/')
+    cy.visit('https://baseline.hexasis.eu/')
     // Accept cookies
     cy.get('button').click()
   })

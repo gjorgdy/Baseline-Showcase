@@ -55,6 +55,13 @@ builder.Services.AddMemoryCache();
 builder.Services.AddTransient<DiscordApiHandler>();
 builder.Services.AddTransient<HttpClient>();
 
+builder.Services.AddHsts(options =>
+{
+    options.Preload = true;
+    options.IncludeSubDomains = true;
+    options.MaxAge = TimeSpan.FromDays(365);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -74,6 +81,14 @@ app.UseCors(corsPolicyBuilder =>
         .AllowAnyHeader()
         .AllowCredentials()
 );
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("Content-Security-Policy", "frame-ancestors 'none'");
+    context.Response.Headers.Append("X-Frame-Options", "DENY");
+    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+    await next();
+});
 
 app.MapControllers();
 app.MapHub<ProfileHub>("/updates");
