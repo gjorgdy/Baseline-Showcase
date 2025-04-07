@@ -26,7 +26,7 @@ describe('Logged In', () => {
     
     cy.visit('https://baseline.hexasis.eu/')
     // Accept cookies
-    cy.get('button').click()
+    // cy.get('button').click()
   })
 
   it('Display account pop-up if logged in', () => {
