@@ -26,11 +26,11 @@ describe('Logged In', () => {
     
     cy.visit('https://baseline.hexasis.eu/')
     // Accept cookies
-    cy.get('button').click()
+    // cy.get('button').click()
+    cy.wait(1000);
   })
 
   it('Display account pop-up if logged in', () => {
-    cy.wait(1000)
     cy.get('#navAccount').click()
     cy.contains('Log out')
         .parent()
@@ -38,7 +38,6 @@ describe('Logged In', () => {
   })
 
   it('Add a tile pop-up', () => {
-    cy.wait(1000)
     cy.get('#navAccount').click()
     cy.get('#myProfile').click()
     cy.get('.button').click()
